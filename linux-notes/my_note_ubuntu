@@ -1,0 +1,2691 @@
+0.how to devide fisk  
+	/boot 	200M   引导
+	/	
+	/home
+	/swap
+	
+	/boot 在双系统或者多系统中必须设置，否则可能会无法开机
+	下面的bootloader必须和/boot的盘符一致；
+必须要分的两个区是/和/swap　swap就是为了应付物理内存不足所造成的内存扩展记录的功能　　当内存不足时，为了让后续的程序顺利执行，在内存中暂不使用的程序和数据就会被暂时挪到swap中，
+
+	常见的硬盘分为两种IDE与SATA
+	IDE　hd[a-d]
+	SATA sd[a-p]
+1.ubuntu 安装utorrent
+	到下载utorrent客户端
+	然后解压到某个目录找到utserver
+	打开浏览器登陆http://localhost:8080/gui
+	用户名admin 密码　为空
+	更改设置就可以了
+	关闭时候使用killall utserver
+
+2.install sogou input:  
+	text Extry  :  + sogou(China)
+
+3.ctrl+alt+F1-F6 -> tty1-tty6 terminal  
+  ctrl+alt+F7 -> 图形界面
+  ctrl+c 终结某个死掉的程序或者进程
+　　ctrl+d 退出
+4.date/cal/bc
+
+5.how to ask for help : 1.man 2.info 3./usr/share/doc 
+
+6.command : a. who --look who are using the computer
+	    b. netstat -a  --the Intnet
+	    c. ps -aux --to monitor the process of the program 
+	    d. 
+	       shutdown -h +time --to -r +time --to reboot
+	       poweroff   halt   init
+	       init 0
+7.can't get in x window(circlely ask you to input passwd)
+	sudo rm -r /mxx/home/.Xauthority
+
+8.rwx   -r   读权限	查询文件名数据
+	-w   写权限	a.新建新的文件与目录 b.删除文件或者目录 c.重命名以及转移文件或者目录
+	
+	-x   可执行权限	a.进入某目录 b.切换到该目录（cd命令）
+		cd - 回到上一次工作的目录	
+	!!!能不能进入某一目录只与该目录的x权限有关，如果不拥有某目录的x权限，即
+	使拥有r权限，那么也无法执行该目录下的任何命令
+	
+	但是即使拥有了x权限，但是没有r权限，能进入该目录但是不能打开该目录，因为	没有读取的权限。
+	
+	
+	sudo mkdir -p /test/test
+	-R(递归的将某目录下所有的文件以及目录全部修改
+	sudo chown -R root:root test	
+
+	改变文件或者目录的权限
+	a. sudo chmod 777 test
+	b. sudo chmod +x test
+	c. u--user  g--group  o--others  a--all
+	   sudo chmod u=rwx,g=r,o=r test
+	改变文件或者目录的属主
+	a. sudo chown root:root test
+	b. sudo chown root test	
+	改变属组
+	sudo chgrp root test
+
+9.	/bin:可以被单用户执行的命令。其下的命令可以被root用户和普通用户执行，如cat,cd,cp,date,chown,
+		chmod,等等
+	/sbin/:开机过程所需要的，只能被root用户所执行，普通用户只能进行查询，包括与开机，还原系统所需要
+		的命令
+	/usr/bin:绝大部分的用户可使用命令都在这里
+	/usr/sbin/:服务器所需要的某些软件程序
+	/usr/local/sbin:本机自行安装的软件产生的系统执行文件
+	
+	/	根目录
+	/etc	系统的配置文件
+	/lib	执行文件所需要的函数库与内核所需要的模块
+	/bin	重要执行文件
+	/sbin	重要的系统执行文件
+	/dev	所需要的设备文件
+	这五个目录必须和根目录放在一块。
+10.根目录最好小一些，将一些经常用到的文件目录(/home:/usr:/var:/tmp与根目录分到不同的分区	
+　　　	因为越大的分区，放入的数据也就越多，出错的几率也就越大，而如果根目录出现问题，系统就可能会出现
+	问题。
+
+11.一次性全部输出
+	cat 	-n --打印行号(包含空白行)
+       		-b --打印行号(不含空白行)
+　     		-a --将一些看不见的字符用特殊符号打出来　空格用"^I^" 回车用"$"
+   	tac(反向列出)  cat --> tac
+   	nl(添加行号打印)
+    分屏输出
+	more	
+	less
+	head 	[-n number]
+	tail
+    非纯文本文件(二进制文件)
+	od -t 	c	ASCII
+		a	默认字符
+		o	octal 八进制
+		d	decimal 十进制
+		f	浮点数
+		x	十六进制
+12.修改文件时间
+	stat filename	#列出该文件的各种时间
+	
+	touch 	-a	仅修改访问时间
+		-t	后面接欲修改的时间而不用当前时间，格式为[YYMMNNhhmm]
+		-d	接欲修改的日趋而不用当前日期，也可以用--date="时间或者日	期"	
+		-c	仅修改文件的时间(文件状态改变的时间)
+		-m	仅修改mtime(文件内容被更改的时间)
+
+	-d 和　-t 修改的是mtime和atime 但是不能修改　ctime
+	touch 	-d "2 days ago" testtouch
+	touch 	-t 150929 testtouch
+	
+	ls -l 默认显示的是mtime,是内容修改的时间(modify)
+	touch --time=ctime　　ctime 显示的是状态被改变的时间,指的是文件属性和权限发生改变。
+	touch --time=atime    atime 访问时间显示的是最近文件被访问的时间(acess),cat and more可以,但是像ls和stat不会改变
+	
+	ls -lc   #chagne state
+	ls -lu   #acess time访问时间
+	ls -l	 #modify time 
+   mkdir 
+	mkdir -p /dir/my_dir
+	mkdir -p /dir/{test,test1,test2}
+13.umask
+
+	用户创建文件时一般不应有执行的权限
+	所以创建文件的默认权限为666也即　-rw-rw-rw-
+	但是目录需要有执行的权限，应为777,即-rwxrwxrwx
+	
+	~$:umask
+	0002
+	~$:umask -S
+	u=rwx,g=rwx,o=rx
+
+	第一个与特殊权限有关，后三个与一般权限有关，在创建文件或者目录时，会将um	-ask所对应的权限拿掉
+	即新建文件时:
+	(-rw-rw-rw-)-(--------w-) = (-rw-rw-r--)所以创建文件的一般权限为-rw-rw-r	--
+	同理可得创建目录时的权限应该为drwxrwxr-x即775
+	
+	要修改umask的值，可直接在输入umask后接所要减去的权限
+	
+	即
+	~$:umask 002
+
+	一般情况下root成员的umask为022，这是为了安全考虑，但是一般成员的umask是0	22,即保留了同用户组的写入权利
+
+如果同一个用户组的不同用户无法修改另一个用户的文件，那么就可能是同组成员的创建文件时的默认权限不同，可以用umask 俩修改
+
+14.chattr与lsattr 设置文件的隐藏属性。
+
+	change attributes
+	chattr -i 设置文件不可以被删除(包括root用户)
+	       -a 设置文件只能增加数据，而不能删除或者修改文件(如登陆文件)
+	
+	chattr	+i +a 可以增加文件的隐藏属性，其他属性不变
+		-i -a 可以除去文件的隐藏属性，其他属性不变
+		=i a  仅有=后面的属性
+	
+	lsattr 查看文件的隐藏属性
+
+15.文件特殊权限　在文件或者目录中除了rwx外，还会出现s,t,S,T权限
+	
+	a.SUID	当s出现在文件所有者的x权限上时，
+	
+	如
+	~$:ls -l /usr/bin/passwd
+	-rwsr-xr-x 1 root root ....
+	~$:ls -l /etc/shadow
+	-rw-r----- 1 root shadow 
+	
+	用户密码存在/etc/shadow内，当用户想要修改密码时，可以使用passwd进行修改
+	用户mxx对于/etc/shadow没有任何权限，但是对于/usr/bin/passwd拥有r-x权限，	所以可以执行passwd命令，由于在passwd命令中有SUID权限，所以mxx在执行pass-	wd命令时，会暂时获得passwd拥有者即root的权限，所以接下来可以用passwd修改	/etc/shadow
+	
+	！！！此权限仅可用于二进制程序中，且仅在执行该程序的过程中有效，此外只对	于文件有效，对于目录也是无效的
+
+	
+	b.SGID　当s权限出现在用户组的x权限时
+	
+	如
+	~$:ls -l /usr/bin/mlocate /var/lib/mlocate/mlocate.db
+	-rwx--s--x 1 root mlocate
+	同SUID类似，程序执行者会获得该程序用户组的支持，
+	
+	还可以用在目录上
+	若该用户在此目录下具有w权限，用户创建的新文件的用户组与此目录组的用户组		相同
+	~$:su root	
+	~#:mkdir test
+	~#:ls -l test
+	drwxrwxr-x 2 root root ...
+	~#:chmod 2777 test
+	~#:ls -l test
+	drwxrwsrwx 2 root root
+	~#:su mxx
+	~$:cd test
+	~$:touch test
+	-rw-rw-r-- 1 mxx root ....
+	！！！此权限对于目录以及文件都有效
+
+	
+	c.SBIT 当t出现在others的x权限上时
+	
+	~$:ls -l /tmp
+	drwxrwxrwt 13 root root ....
+
+	用户对于某个目录具有wx的权限，即可以写入的权限，相当于说目录的属主给了用	户属组或者其他人的身份，并拥有w的权限，那么也就是说这个用户具有删除属主
+	创建的文件或者目录的删除等权限。但是如果该目录拥有了SBIT的权限，那么该用	户就只能删除自己所创建的文件，而不能删除属主所创建的文件。
+
+	
+	！！！此权限只针对目录有效
+	
+　　如何设置文件以及目录的特殊权限(SUID 4,SGID 2 ,SBIT 1)
+	
+	最前面的一位为文件的特殊权限
+	直接用chmod 4755 filename  就可以了
+	还可以通过加法来实现，如SUID为u+s,SGID为g+s,SBIT为o+t
+	
+	此外还有大写的S和T，代表空
+	如
+	~$:chmod 7666 test 
+	~$:ls -l test
+	-rwSrwSrwT 1 mxx mxx 
+	因为s和t都是替代x的，而当文件所有者以及其他用户用户组都没有x的时候，所以	就不用说其他的操作了，所以也就为空了
+
+
+16.file 查看文件类型　　data或者ASCII或者binary
+	file /usr/bin/passwd
+
+17.命令与文件的查询
+	
+	a.脚本文件的查询which [-a] command 
+	
+	b.文件的查询
+		whereis和locate 利用数据库查找
+		find查找硬盘
+		find可以查找具有特殊要求的文件，如查找文件所有者，文件大小,SUID
+			等等
+
+		find . -size -5k -a size +1k 是会把当前目录也列出来的
+		
+		whereis [-bmsu]
+		-b 二进制文件
+		-m manualz路径下的文件(说明文件)
+		-s source源文件
+		-u 不在上述范围的其他特殊文件
+	
+		locate  查找/var/lic/mlocate数据库内的数据，该数据库每天更新一次			可手动更新，updatedb,因为他是每天更新一次，所以可能会找				到已删除的文件或者是找不到新建立的文件。
+		a.与时间有关的参数
+			find /tmp mtime n/+n/-n
+		b.与用户或者用户组有关的文件
+			find / 	-uid n 
+				-gid n
+				-user name
+				-group name
+				-nouser
+				-nogroup
+		c.与文件权限或者名称有关的参数
+			find / 	-name filename	
+				-size [+-]SIZE
+				-type TYPE[-fbcdls]
+				-perm mode	刚好等于mode
+				-perm -mode	全部包含
+				-perm /mode	任意一个
+		find / -perm +7000 -exec ls -l {} \;
+			http://www.cnblogs.com/wanqieddy/archive/2011/06/09/2076785.html
+
+第八章　磁盘与文件系统管理
+	
+18.　碎片整理，文件写入的block太碎了，文件的读写性能太差，所以可以通过碎片整理将	一个文件的block回合在一起　FAT文件系统经常需要碎片整理,但是Ext2文件类型		是索引式文件系统，所以不太需要经常碎片整理的。
+
+19.	df 查询挂载的设备
+	dumpe2fs [-bh]	查询每个区段以及superblock的信息
+		-b
+		-h 仅列出superblock的数据
+		ls -i 查看文件的inode编号
+		目录并不一定只占一个block，当目录内的文件数太多时，会增加该目录			的block
+
+	
+	df [-haiT]　[dir/file]	显示文件系统的整体磁盘用量
+		-a 列出所有的文件
+		-h 显示文件系统的大写，自行显示格式
+		-i 可用的inode
+		-T 联通分区文件系统的名称
+
+	du [-ashkm] [dir/filename] 目录或者文件所占的容量
+		默认显示的是目录的容量，不包含文件
+		-s 该目录下所有文件的容量，不细列出来
+		-a 显示所有的目录与文件的容量
+		-h 以人们熟悉的大小方式显示出来
+		-k 以kb列出容量
+		-m 以mb列出容量:
+20. ln [-s] 链接文件
+	hard-link	硬链接，将某个目录下的block多写入一个数据,磁盘的inode与b			lock数量一般不会改变，磁盘容量也不会改变，而且删除一个文			件并不会响另一个文件的读写，但是其对于目录是没有作用的，			对于不同的文件系统也是没有用的。  
+	sybomlic	
+
+21.磁盘分区　　格式化　检验与挂载
+	
+	df + 目录  查看某个目录挂载的磁盘位置
+	eg: df /
+
+	sudo fdisk [-l]　+ 设备　输出后面设备所有的分区内容　如不加设备名称，列					　出整个系统。
+
+	新增或者删除分区
+	sudo fdisk + 设备　　对设备进行操作  
+	partprobe
+
+	
+	sudo mkfs [-t ext2/ext2/vfat] + 设备名　 将某个设备格式化为某种文件系统
+	
+	sudo mke2fs [-b block_size] [-i inode_size]  [-L 卷标] [-cj -c 检查磁盘				错误　-j 加入日志文件] + 设备名
+
+	sudo fsck [-CAay] [-t filesystem] + 设备
+		-C  使用直方图显示进度
+		-A  依据/etc/fstab内容，扫描设备
+		-a  自动修复检查到的有问题的扇区
+		-y  与-a 类似
+		ext2 ext3 支持额外参数　　[-fD] -f 强制进入设备进行检查
+						-D 对文件系统下的目录进行优化配								置
+	sudo badblocks [-sv] + 设备  -s 在屏幕上列出进度 -v 在屏幕上看到进度
+
+22.mount [-aoltnL] 挂载文件系统与磁盘 P227
+	
+	-a　按照/etc/fstab的配置信息将所有未挂载的磁盘挂载上来
+	-l　可增加label名称
+	-t　加上文件类型
+	-n　默认情况下会将挂载情况写入/etc/mtab，加入-n可以不写入
+	-L　可以利用卷标名来挂载
+	-o 加一些挂载时的额外参数　
+		ro(只读)　rw(可写)
+		async sync 此文件系统是否使用同步写入或者异步的内存机制
+		auto noauto 允许此分区以mount -a自动挂载(auto)
+		dev nodev 是否运行在此分区创建设备文件
+		suid nosuid 
+		exec noexec 是否可拥有可执行binary文件
+		user,nouer 设置user参数可以让一般user能对此分区挂载
+		defaults　默认为rw,suid,dev,exec,auto,nouser,async
+		remount 重新挂载，在系统出错，或者重新更新参数时
+	mount 设备文件名　挂载点
+		
+	用卷标名挂载设备
+	~#:mount -L mxx_logical /medic/mxx	
+	
+	用磁盘设备名挂载
+	~#:mount /dev/sdb1 /mnt/usb
+
+	~#:mount -t iso9660 /dev/cdrom /media/cdrom
+	
+	~#:mount -o remount,rw,auto /dir
+
+	~#:mount -o loop ~/my.iso/myfile.iso /mnt/iso
+	....
+
+	
+	
+23.磁盘参数修改
+	设备用文件来代表	通过文件的major与minor数值来替代 
+				Major 主设备代码	Minor　次设备代码
+				/dev/hd*  major = 3				
+				/dev/sd*  minor = 8	
+	mknod [bcp]
+		b	设置设备名称成为一个外部存储文件，如硬盘 
+		c	设置设备名称成为一个外部输入文件，如鼠标/键盘
+		p	设置设备名称成为一个FIFO文件
+
+	e2label /dev/sdb5 + 新的label名称
+	
+	tune2fs [-jlL]
+		-l  类似 dupme2fs -h 
+		-j  将ext2转换为ext3
+		-L  类似于　e2label 
+
+	hdparm -Tt /dev/sd*  测试SATA硬盘的读取性能
+
+24.挂载.iso文件
+	
+	mount -o loop /home/mxx/ubuntu16.04 /mnt/ubuntu16.04
+
+	dd命令　创建一个大文件 
+	dd if=/dev/zero of=/home/mxx/filename bs=1M count=512
+		if--input file	/dev/zero 一直输出0
+		of--output file	将if中的内容加入到of接的文件名中
+		bs--block size	
+		count	共有多少个bs
+	
+25.构建swap空间
+	
+	例如将第二快硬盘的第五个分区改为swap分区
+	~#:sudo fdisk -l /dev/sdb
+		p
+		t 5
+		82
+		w
+		partprobe
+	将/dev/sdb5更改为swap类型的文件系统
+	
+	~#:mkswap /dev/sdb5
+	
+	~#:free 查看memory以及swap分区的使用情况
+	
+	~#:swapon /dev/sdb5 使用/deb/sdb5的swap分区	
+	~#:swapon -s 查看目前使用的swap设备有哪些
+	~#:swapoff /dev/sdb5
+
+26.boost sector 与　superblock 的关系
+	1.superblock的大小为1024b
+	boost sector与superblock 各占一个block ,可以查看/boot的挂载目录
+		0号block给boost ，1号block给superblock
+	2.superblock的大小大于1024b,如为4096b
+	superblock在0号blok ,但是superblock 只有1024b,所以为了防止空间浪费，于是		在0号block内，superblock(1024-2047),boost sector(0-1023),2048后			面的空间保留。
+	实际情况中，由于在比较大的block中，我们能将引导装载程序安装到superblock			所在的0号block,但事实上还是安装到启动扇区的保留区域。
+	比较正确的说法是，安装到文件系统最前面的1024b内的区域，就是启动扇区
+
+27.how to use github in ubuntu
+	
+	安装github
+	sudo apt-get install git git-core git-gui
+	检查ssh
+	ssh -T git@gitgub.com
+	如果看到
+	Warning: Permanently added ‘github.com,204.232.175.90’ (RSA) to the list 		of known hosts. 
+	Permission denied (publickey).
+	则可以继续
+	~$:cd ~/.ssh
+	查看是否有ssh keys
+	并没有发现执行下一步	
+	~$:ssh-keygen -t rsa -C "github 邮箱"
+	在github上登陆自己的账号，找到Settings->SSH Keys -> ADD SSH Key 将
+		is_rsa.pub文件中的字符串复制进去，不含空格和回车。
+	~$:ssh -T git$github.com
+
+	git config  --gloabl user.name "github用户名"
+	git config  --gloabl user.email "github邮箱"
+
+	在github上新建repository 名为 testgit
+	~$:cd mkdir /home/mxx/github/testgit
+	~$:cd github/testgit
+	~$:git init
+	~$:touch Readme
+	~$:git add Readme
+	~$:git commit -m 'add readme file'
+		版本回退
+		~$:git reset --hard HEAD^ 回退到上个版本 
+		~$:git reflog 查看提交的id
+		~$:git reset --hard id
+		管理修改
+		 在工作区修改后回退　
+		~$:vim file
+		~$:git checkout -- file
+		 加入缓存区后回退
+		~$:git add file
+		~$:git status
+		~$:git reset HEAD file 清除了缓存去但是工作区还有修改
+		~$:git status
+		~$:git checkout -- file 清除工作区修改
+		 加入版本库后回退
+		~$:git commit -m "add file"
+		~$:git reset --hard HEAD^ 但是在提交到远程库后不能撤销。。
+		删除文件
+		~$:rm test
+		~$:git status 查看状态
+		~$:git rm test
+		~$:git commit -m "delete file test"
+		如果误删了文件的话可以用(前提是已经提交到版本库，否则无法恢复)
+		~$:git checkout -- file
+
+	远程库
+	~$:git remote add origin git@github.com:mxxhcm/testgit.git
+	~$:git remote add origin https://github.com/github用户名/github仓库.git
+	~$:git push -u origin master 把本地的master库和远程的master库连接起来，
+				以后推送或者拉取就会简单
+		输入github账号和密码
+	　推送
+	~$:git push origin master
+	　拉取
+	~$:git pull	
+
+	还可以直接克隆一个已有的仓库，
+	~$:git clone https://github.com/github用户名/github仓库.git
+	
+
+	分支管理
+	~$:git branch dev 创建分支
+	~$:git checkout dev 切换分支
+	~$:git branch 查看当前分支
+	~$:git merge dev 将分支合并
+	~$:git brancd -d dev 删除分支
+	
+
+文件与文件系统的压缩与打包
+
+29.gzip ,zcat ,bzip2,bzcat , gunzip ,bunzip2,7z,zip,rar
+
+	gzip 和 bzip2　公用	
+		-d 解压缩参数	
+		-# #取1-9　压缩等级 -1最快
+		-v 显示压缩比
+		-k 保留原文件
+		-z 压缩参数
+		-c 将压缩过程中产生的数据输出到屏幕上(压缩后的数据)可以将其输出重定向
+		-t 检验一个压缩文件的一致性
+
+	zip [-dmbrfFg]
+		-d　从zip文件中移除一个文件
+		-m  将特定文件移入zip文件，且删除特定文件
+		-g　将文件压缩附加到zip文件中
+		-r  包括子目录
+		-f  以新文件取代旧文件
+		-F　修复已经损毁的压缩文件
+		-b　暂存文件的路径
+		-v　显示详细信息
+		-u　值更新改变过的文件
+		-T　测试zip文件是否正常
+		-x　不需要压缩的文件
+	~#:zip -r myfile.zip ./*
+	~#:zip -d myfile.zip myfile　 //删除压缩文件内的某个文件
+	~#:zip -g myfile.zip myfile   //向一个压缩文件内添加新文件
+	~#:zip -u myzip
+	
+	unzip [-dnovj]
+		-v  查看压缩文件目录，但是不解压
+		-d  指定解压到的目录
+		-n　不覆盖已有文件
+		-o　覆盖已有文件
+		-j  不重建文档的目录结构，把所有文件解压到同一目录下
+	
+	7z
+	~#:apt-get install p7zip
+	7z [x|a] [-rotr]
+		a　代表添加文件到压缩包
+		x　代表解压缩文件
+		-r 表示递归所有文件
+		-t 制定压缩类型
+		-o 指定解压到的目录
+	~#:7z a -t 7z -r myfile.7z  ~/myfile
+	~#:7z x myfile.7z -r -o ~/
+
+	rar
+	~#:apt-get install rar
+	~#:rar x myfile.rar
+	~#:rar a myfile.rar myfile	
+30.tar命令
+	
+	-c  --create
+	-x  --extract
+	-t  --list
+	-v  --verbose
+	-f  --file
+	-j  --bzip2
+	-z  --gzip --gunzip 
+	-C  --directory DIR
+           	change to directory DIR
+	
+	-p  --preserve-permissions, --same-permissions
+	-P  --absolute-names
+
+	--exclude=file
+
+	~#:tar -cvj -f ~/my_bak/etc.newer.passwd.tar.bz2 --newer-mtime="2016/09/23"			/etc/*
+	
+	~#:tar -cvj -f ~/my_bak/etc.tar.gz   /etc
+	~#:tar -xvj -f ~/my_bak/etc.tar.gz -C /tmp
+	~#:tar -xvj -f ~/my_bak/etc.tar.gz |etc/shadow
+	~#:tar -tfj -f ~/my_bak/etc.tar.gz | grep 'shadow'
+
+	tarfiel tarball
+	
+	磁带机/dev/st0
+	tar -cv -f /dev/st0 /home /root /etc
+
+31. dump 与　restore
+
+	dump 
+		-S	size
+		-u	update    recode the dump time to /var/lib/dumpdates
+			-u只能对level 0 操作
+		-j	add compress bz2(默认压缩等级为 2)
+		-v	verbose   详细的
+		-W	列出/etc/fstab中的具有dump设置的分区是否被备份过
+		-f	
+		-level	备份的等级(0-9) 对于文件系统有九个等级
+					对于单个目录只有0级
+
+	~#:dump -0u -f /root/etc.dump /etc
+	
+	
+	restore
+		-t	list
+		-C	compare
+		-i	itera
+		-r	r	
+
+	~#:restore -t -f /root/boot.dump
+	~#:restore -C -f /root/boot.dump
+	~#:mkdir test_restore
+	~#:sudo fdisk /dev/sdb
+		new a /dev/sdb2
+	~#:cd test_restore	
+	~#:restore -r -f /root/boot.dump
+	~#:restore -i -f /root/etc.dump.bz2
+		help
+		ls
+		add
+		delete
+		extract
+		quit
+
+32.mkisofs
+	-o +生成的镜像名
+	-r 记录更完整的文件信息，包括UID,GID与权限等
+	-v 显示构建iso的过程
+	-V 新建Volume
+	-m exclude 排除某文件
+	-graft-point 
+	
+	~#:mkisofs -r -v -o ~/my.iso/system.iso -m /home/lost+found -graft-point/home=/home /root=/root /etc=/etc
+
+33.dd 
+	可以备份整块硬盘或者整块磁盘　　包括　superblocks以及boot sector 等等
+
+vim的学习与使用
+
+
+34.常用的vim命令
+	
+	0 $
+	hjkl
+	oO iI aA
+	1G gg G nG
+	n-space n-ENTER nG
+	nj nk nh nl
+	x dd yy p
+	/word ?word
+	n N
+	:1,10s/word/word.rp/g(c)
+	:1,$s/word/word.rp/g(c)
+	ctrl+f ctrl+b
+	J  
+	u . ctrl+r
+
+	:w [filename]
+	:r [filename]
+	:n1,n2 w [filename]
+
+
+	:set nu
+
+35.其他vim使用事项(290)
+	
+　　　中文编码
+	tty1-tty6默认不支持中文编码　　
+	修改终端　接口语系　
+	LANG=zh_CN.big5
+
+
+	ubuntu  don't have dos2UNIX or UNIX2dos  but is has tofrodos
+
+	　　　	frodos filename
+		todos filename
+			-b .bak
+			-v ver
+
+	语系编码转换
+	iconv -o保留原文件，-o加新文件名
+	iconv -f big5 -t utf8 filename -o filename
+
+
+认识与学习bash
+
+36.type 查看命令的来自于哪里　　是bash还是外部命令还是别名
+	file外部命令
+	alias别名
+	builtin内置在bash内
+		-t -p -a
+	
+	type -t ls 
+	~$:alias 以file builtin alias 列出该命令的类型
+	type -a ls 列出所有的名为ls的命令
+37.echo 与 unset
+	
+	~#:echo $PATH
+	~#:echo ${PATH}
+	
+	""内的特殊字符可以保持原有特性　var="lang is $LANG" 那么 echo $var 输出			var=en_US.UTF-8
+	''内的特殊字符仅保存为一般文本
+	
+	反单引号`可以获得其他命令的信息
+	version=`uname -r`  =$(uname -r)	
+
+38.env以及export查看常见变量
+	/etc/profile
+	/etc/bash.bashrc
+	
+	RANDOM产生0~32767的随机数
+	产生0-9的用declare -i number=$RANDOM*10/32767    echo $number
+
+
+	HOME
+	SHELL
+	HISTSIZE
+	MAIL
+	PATH	/etc/environment
+	LANG
+	RANDOM
+	
+　　set查所有变量
+	
+	HISTFILE=~/.bash_history
+	MAILCHECK
+	PS1	提示符的设置
+	$	关于本shell的PID
+	?	上个变量的回传码，正确返回0，错误返回其他值，可以利用代码差错
+	OSTYPE HOSTTYPE MACHTYPE	主机硬件与内核的等级	
+
+	
+    export将自定义变量转换为环境变量
+    
+    locale -a 文件的语系
+
+    read 赌球来自键盘输入的变量
+	-p	用户可以输入提示语
+	-t	光标等待用户输入时间
+    
+	~#:read -p "hello" -t 10 variable
+
+    declare 声明变量的类型　　默认为字符串
+	-x	声明环境变量 
+	-i	将变量定义为整形
+	-a	将变量定义为数组
+	-r	将变量设置为readonly  若要删除该变量，必须退出该bash重进
+	-p	单独列出变量的类型
+
+    ulimit 与文件系统以及程序的限制关系
+	-a 后面不接任何参数,可以列出所有的限制额度
+	-c 某些进程发生错误，系统可能会将该进程在内存中的信息写成文件，这种文件			就称为内核文件(core file)。此为限制每个内核文件的最大容量
+	-f 此文件可以创建的最大文件容量,一般为2G:
+	-d 进程可使用的最大断裂内存(segment)容量
+	-l 可用于锁定(lock)的内存量
+	-t 可使用的最大CPU时间
+	-u 用户可使用的最大进程(process)数量
+	
+	-H hard limit 严格的限制　　必须不能超过
+	-S soft limit 警告的限制　　可以超过，但要有警告信息
+
+40.变量的使用
+　　变量内容的测试与内容替换
+    echo ${variable#*}
+    echo ${variable##*}
+
+    echo ${variable%*}
+    echo ${variable%%*}
+
+    echo ${variable/bin/BIN}
+    echo ${variable//bin/BIN}
+
+    变量的测试与替换
+	
+    new_var=${old_var-content}
+    用新的变量的值区替代旧的变量的值，新旧变量可为同一个，若old_var不存在，则将
+	content的值给new_var,而若old_var的值存在则将其赋给new_var;
+　　加上:的话，即使old_var为空的话，也会用content的值去赋给new_var
+
+    username=""
+    username=${username:-root}
+    echo $username
+    
+    将-换成=是将原变量一同更改
+　　将-换成?是当变量不存在时，可以发出错误信息
+
+    
+40.命令别名设置功能　
+	
+	alias
+	alias lm='ls -al'
+
+	unalias
+41.history命令与文件
+	history (n)列出最近的第(n)条命令
+
+	!number	执行history的第number条命令
+	!command　由最近的命令开始搜寻开头为command的命令
+	!!	执行上一个命令
+
+42.Bash Shell的操作环境
+	
+　　　路径与命令查找顺序
+	先由相对路径或者绝对路径寻找
+	a.alias
+	b.builtin
+	c.$PATH这个变量的顺序找到的第一个命令
+　　　
+　　  bash的登陆界面以及欢迎信息
+	/etc/issue  #
+	/etc/issue.net  #提供telnet远程登陆，当使用telnet连接到主机时显示该内容
+	/etc/motd(?)->/etc/update-motd.d/　
+	/etc/issue	\d \l \m \n \o \r \t \s \v
+		\d 本地端时间的日期
+		\l 显示第几个终端机
+		\m 显示硬件等级
+		\n 显示主机的网络名称
+		\o 显示domain name
+		\r 操作系统的版本
+		\t 显示本地端时间的时间
+		\s 操作系统的名称
+		\v 操作系统的版本
+
+      bash的环境配置文件	
+
+	login shell 以及non-login shell
+	   /etc/profile系统整体的设置
+	   ~/.profile用户个人设置
+
+	login shell
+	    /etc/profile
+		/etc/inputrc	/etc/profile.d/*sh
+	    ~/.profile
+		~/.bashrc	/etc/bashrc
+	    开始操作bash
+	
+	non-login shell
+		取得non-login shell 时，该bash配置文件仅会读取~/.bashrc
+		
+		
+	source 配置文件名
+	如
+		source ~/.bashrc
+		. ~/.bashrc
+
+	/etc/manpath.config使用man时man page的路径到哪里去找
+	用tarball的方式安装的时候,那么man page可能放置在/usr/local/softpackage/\	man里，需要以手动的方式将该路径加入到/etc/man.config里面
+
+     终端机的环境设置
+	stty　　setting tty(终端机的意思)
+		-a 将所有的stty参数列出来
+	    
+	    如何设置呢  比如将erase设置为ctrl+h来控制stty erase ^h
+	    ctrl + c 终止目前的命令
+	　　ctrl + d 输入结束，例如邮件结束
+	　　ctrl + m ENTER
+	    ctrl + u 在提示符下，将整行命令删除
+	　　ctrl + z 暂停目前的命令
+	
+	set
+	　set $-　那个$-变量内容是set的所有设置 
+	  uvxhHmBC
+    	
+	/etc/inputrc其他的按键设置功能
+	
+     通配符与特殊符号
+	通配符* ? [] - ^
+	特殊字符　# \ | ; ~ $ & ! / >,>> <,<< '' "" ``或者$() () {}
+
+43.数据流重定向
+
+	> >>
+	>　输出重定向　
+		ls -ld /etc/ ~/directiry/etc_dir
+	std output 
+		find / -name ~/.bashrc > find_result 
+	std error output
+		find / -name ~/.bashrc >fing_right 2> find_error !必须为2>
+		
+		find / -name ~/.bashrc > find_result 2>/dev/null
+		
+		find / -name ~/.bashrc >find_result 2>&1
+	>> 追加到某个文件结尾
+	
+	< <<
+	cat > catfile
+	>
+	>
+	> ctrl + D
+	从文件中读入数据
+	cat > catfile < ~/.bashrc
+	重定义输入结束符
+	cat > catfile << "eof"
+ 	
+	&& || 命令从左到右依次执行　根据回传码$0的值，继续向右执行命令
+
+44.PIPE
+	
+	管道命令仅会处理stdout并不会处理stderrout
+	管道命令必须要能接受前一个命令传回来的数据成为stdinput
+	
+	cut -d '分隔字符' -f (fields)fields为数字
+	cut -c 字符范围
+
+		cut -d ':' -f 2,3
+		echo $PATH | cut -d ':' -f 2,4
+	
+		cut -c 20-30
+		export | cut -c 12-
+
+		不过cut 对于多个空格当做分隔字符的处理做的不够好
+
+		last最近登录的用户
+
+	grep [-aincv] [--color=auto] '关键字' filename
+		-a 将binary文件以text的方式查找数据
+		-i 忽略大小写
+		-c 计算查找到的字符串的个数
+		-n 顺便输出行号
+		-v 反向选择
+	dmesg | grep -n A3 B2 'eth'
+		A --after  B --before
+	
+	last | grep 'mxx' | cut -d '' -f 1
+
+	sort wc uniq
+		
+	sort 	排序
+		[-fbMnrutk] [file]
+			-f 不区分大小写
+			-u uniq
+			-t 分隔符
+			-k 以第几个字段进行排序
+			-n 以数字进行排序(默认是以字母)
+			-m 反向排序
+		eg:
+		sort -t ':' -k 3 -n /etc/passwd	
+		or
+		cat /etc/passwd | sort -t ':' -k 3 -n
+
+	uniq 去重
+		[-il] [file]
+		-i 不区分大小写
+		-c 进行计数	
+		
+		last | cut -d ' ' -f 1 | sort | uniq
+		首先需要排序　才能去重	
+	last | cut -d ' ' -f 1 | sort | uniq -c
+
+	tee双重重定向将一份数据可以同时传到文件内以及屏幕中
+		last | tee last.list | sort 
+	
+	tr 删除一段文字或者对文字内容进行替换(如删除dos中的换行符^M)
+		[-ds]
+		-d 删除信息中的某个字串
+		-s 替换重复字符
+	
+		last | tr '[a-z]'  '[A-Z]'
+		echo $PATH -d ':/'
+		cat /root/passwd | tr -d '\r' > passwd.linux
+		
+	col 简单处理
+		[-xb]
+		-x 将tab键换成空格键
+		
+		cat  manpath.config | col -x | cat -A | more
+		
+
+			
+	join 将两个文件中具有相同数据的一行相加
+		join [-ti12] file1 file2
+		-i 大小写忽视
+		join -t ':' passwd shadow
+		join -t ':' -1 4 passwd -2 3 group
+
+
+	paste直接将两行粘在一起，默认并以tab键分开
+		-d后面可以加分隔字符默认以tab分隔
+		-表示来自standard input的数据的意思
+		paste shadow passwd
+		cat shadow | paste passwd - | head -n 3
+
+	expand将tab键换成空格默认是8个空格
+		-t 参数可以自行设定空格数
+		nl file | expand -t 6 - | cat -A
+	
+	split [-bl] file PREFIX
+		-b后面加文件欲切割成的文件大小
+		-l以行数来切割
+		split -b 1M /etc/termcap termcap
+		ls -l termcap*
+	
+		cat termcap* >> termcapback
+		
+		ls -l / | spilt -l 10 -lsroot
+		wc -l lsroot
+	
+	xargs产生某个命令的参数
+		[-pne0]
+		-p 执行每个命令询问用户
+		-e 是EOF的意思，后面可接一个字符，当xargs遇到这个字符，便会停止				操作	
+		-n 后面接次数，每次command命令执行时，要使用几个参数
+	-用来代替stdout以及stdin
+	tar -cvf - /home | tar xvf -	
+
+正则表达式
+
+45.dmesg 查看内核信息
+	
+46.grep -n  '^$' regular_express
+	grep '^the' file
+	grep '[^[:lower:]]' file
+	grep '\.$' file
+	grep '^[^a-zA-Z]' file
+	grep 'go\{2,3\}g' file
+
+	对比
+	ls -l /etc/a*
+	grep -n '^a.*/' 
+
+nl 打印出文件并加上行号
+
+47.sed 工具	
+
+	[-in]
+	-i	直接修改文件内容
+	-n	静默
+	-e 直接在shell下编辑
+	-c replace
+	-a append
+	-p print
+
+	nl file | sed '2,3d'
+	nl file | sed '$a add a test'
+	nl file | sed -n '5,7p'
+	nl file | sed '2,5c jkadfk\
+				>fdasf\
+				>asfddf '
+	nl file | sed 's/s_place/s_replace/g'	
+	nl file | sed '/^$/d'
+48.egrep 扩展正则表达式
+	
+	egrep -n '^$|^#' file
+	egrep -n 'go?d' file　0个或者一个?之前的字符
+	egrep -n 'go+d' file　一个及以上+之前的字符
+	grep -n 'go*d' file　0个或者0个以上*之前的字符
+49.printf 格式化打印
+	
+	printf '%s\t %s\t %s\t \n' $(cat file)
+	printf '%10s %5i %5i \n' $(cat file)
+50.awk
+	
+	last | awk '{print $1 "\t" S3 "\t" $4 NF NR}'
+	cat /etc/passwd | awk 'BEGIN {FS=":"} $3 < 10 {print $1 "\t" $3 }'
+
+	cat /etc/passwd | awk 'NR==1{printf "%10s %10s %10s %10s ",$1,$2,$3,"tot		al"}
+		NR>=2{total=$2+$3;
+			printf "%10s %10d %10d %10.f",$1,$2,$3,total"}'
+51.diff 文本比较，通常比较一个文件的不同版本	
+	diff [-bBi] file1 file2
+		-b　忽略一行中仅有多个空白的区别
+		-B  忽略空白行的区别
+		-i  忽略大小写
+	diff test.old test.new
+	diff -Naur test.olc test.new > test.patch
+	patch 补丁
+	cat test.patch
+	patch -pN test.patch 更新旧版
+	patch -R -pN test.patch 恢复为旧版
+
+学习shell script
+看一下自己写的/home/mxx/scripts/delete_dir
+52.echo $(($num1 operand $num2))	
+	进行运算
+53.source file.sh   sh file.sh   ./file.sh
+	source 是将该shell拿到父进程中来执行，所以各项操作都会在该bash内执行
+	sh和./是开启一个新的shell来执行
+54.test
+	test [-rwxfd]
+		[-nt -ot -ef ]
+		[-eq -nq -gt -lt -ge -le]
+		[-z ]
+		[-a -o]
+
+	test -r filename
+	test "$filename" == "content"
+
+	[ "$filename" == "$varible" ]
+
+55.$# $@ $* 
+	$#:变量个数
+	$@:变量内容
+	$*:
+
+56.netstat -tuln 列出本机上的网络服务
+	
+57.if,case,function,
+     if
+	if [ "$filename" == "mxx" ];
+	then
+		...
+	elif [ ... ];
+	then
+		....
+	else
+		....
+	fi
+     case
+	case $variable in
+		"first")
+		...
+		;;
+		"second")
+		...
+		;;	
+     function
+	function printfinfo()
+	{
+		echo "This is a file"
+	}
+58.循环 while, until , for
+      while	
+	while [ "$i" -lt "$n" ]
+	do
+		..
+	done
+      until
+	until [ "$i" -ge "$n" ]
+	do
+		...
+	done
+
+      for
+	for var in f1 f2 f3...
+	do
+		...
+	done
+
+      for ((初始化值;控制值;执行步长))
+	
+	
+59.seq 产生一系列数
+	seq [-s]
+		
+	~$:seq -s " " 3 10
+	3 4 5 6 7 8 9 10
+	
+60.sh [-vxn] my.sh
+	sh -x	执行过程
+	sh -n	查询语法问题
+
+61.联想Y400/y400/Y500/y500拆机教程
+	http://v.youku.com/v_show/id_XNTA4MDI1NDky.html?from=s1.8-1-1.2
+	换屏幕视频
+	http://v.youku.com/v_show/id_XODAzOTM2OTAw.html?from=s1.8-1-1.2
+
+62.id和finger
+	id 用来显示某个用户的id信息
+	finger 用来分析某个用户信息
+
+Linux使用者管理
+
+63. /etc/passwd /etc/shadow /etc/group /etc/gshadow
+	/etc/passwd
+	mxx:x:1000:1000:mxx,,,:/home/mxx:/bin/bash
+	账号名称,密码，UID,GID,用户信息说明列，主文件夹，shell
+	/etc/shadow
+	mxx:........:17034:0:99999:7:::
+	账号名称，密码，最近密码更改日期，密码更改多久后才能重新更改，密码多长时间需要重新修改，密码需要修改前多少天发送警告，密码过期后宽限时间，账号失效日期，(形式和密码更改日期一样)，保留字段
+	/etc/group
+	
+	用户组名称，用户组密码,GID,此用户组支持的账号名称
+
+	/etc/gshawod
+	用户组名，
+	密码列，开头为!表示无合法密码
+	用户组管理员的账号
+	该用户组的所属账号
+	
+	UID 0系统管理员
+		1-99系统账户
+		100-499用户创建的系统账号
+		500-65535一般用户
+64.修改密码
+	一般账户:passwd
+	root账户:
+	重启后进入单用户维护模式
+	忘记密码后，以各种方式清空/etc/shadow中root的密码字段。登陆后再用passwd修改密码	
+
+65.账号管理
+
+	usermod -G group user将一个用户加入其他用户组
+	初始用户组用户的/etc/passwd的第四个字段即为该用户的初始用户组的GID
+	groups查看当前登陆用户的用户组。第一个为有效用户组
+	newgrp更改用户的有效用户组，但是用户组必须当前用户支持的用户组
+
+	UID/GID密码参数的设置在 /etc/login.defs
+	
+	useradd [-ugGmMcdrsef]　　调用/etc/default/useradd的数据
+		-u UID 			/etc/skel用户主文件加参考基准目录
+		-g initial group  
+		-G 这个账户可以加入的其他用户组
+		-m 创建用户主文件　
+		-M 不创建用户主文件
+		-s 接一个默认shell
+		-r 创建一个系统账户
+		-c /etc/passwd的第五列说明
+		-d 制定某个目录成为主文件夹
+		-e 后面跟一个日期YYYYMMDD写入shadow的第八字段，账号的失效日期
+			从1970年来总日数，若账号失效，无论密码是否正确，都无法登			陆
+		-f 后面接shadow的第七字段,判定密码是否会失效,0为立即失效,-1为永				不失效(密码只会过期强制登陆时重新设置),大于0的表示如n，				如果在n天后，没有登陆修改密码，那么在n天后密码会失效，再			也无法登陆，但是在如果在n天内登陆并修改密码，就可以继续				使用
+
+		-D useradd的默认值	
+
+	修改密码
+	passwd [账号]　[--stdin]
+	~#:passwd　后面没有接密码，就是修改当前用户的密码
+	passwd -l -u -S -n -x -w -i
+	-l lock
+	-u unlock
+	-S 密码相关参数
+	-n next　多长时间不能修改第四个字段
+	-x 多少天必须修改　第五个字段
+	-w warn第六个字段
+	-i 失效日期　第七个字段
+
+	echo "passwd" | passwd --stdin user
+
+	chage [-ldEImMW] 账号名
+		-l　列出详细参数
+		-d　第三字段
+		-E　第八字段　账号失效　
+		-I　第七字段　密码失效
+		-m　第四字段
+		-M　第五字段
+		-W　第六字段
+
+	chage -d 0 user
+
+	usermod [-;cdefgGasuLU]
+		-l 修改账户名称
+		-L lock
+		-U unlock
+		修改/etc/shadow
+		-f 第七字段
+		-e 第六字段
+		-c /etc/passwd 第五字段
+		-d /etc/passwd 主文件夹第六字段
+		-g /etc/passwd 第四个字段GID
+		-G 后面接次要用户组，修改这个用户能支持的用户组，修改/etc/group
+		-a 与-G连用，增加次要用户组的支持而非设置
+		-u UID /etc/passwd的第三个字段,UID
+		-s 接shell的实际文件
+	
+	sudo usermod -l 'my_usename' username
+	
+
+	userdel 
+		userdel -r username　删除主文件夹
+		find / -user username
+		userdel username
+66.finger查看用户的数据
+	finger 查看当前用户的数据
+	finger username 查看某用户的信息
+
+	chfn 就是相当于-c参数,修改当前用户/etc/passwd的第五个字段值
+		
+
+	chsh -s　修改当前用户的shell
+	
+	chsh -s /bin/bash
+
+	id [username]
+	列出当前用户或者username的所有id
+
+67.group的增加与修改
+	groupadd [-gr]
+		-g　指定GID
+		-r　新建系统用户组
+	groupmod [-gn]
+		-n　修改组名
+	groupdel [groupname]
+
+	尽量少修改GID否则会造成系统资源的混乱
+	当用户组为某个用户的初始用户组时，就无法删除该用户组
+
+	gpasswd　[-AMrR] groupname
+		-A 将groupname的控制权交给后面用户
+			gpasswd -A mxx groupname
+		-M 将某些账号加入到这个用户组中
+		-r 将groupname的密码删除
+		-R 将groupname的密码失效
+	
+	gpasswd groupname 设置groupname管理密码
+	gpasswd groupname 
+	-A 增加groupname的管理员
+	-r让密码删除
+
+	gpasswd -ad username groupname
+		-a增加
+		-d删除
+
+
+68.ACL  Acess Control List
+	针对单一用户或者目录来进行rwx的权限设置
+	setfacl　[-m|-x]	-m设置acl参数	-x删除后续acl参数
+		[-bkRd]
+		-b删除所有的acl参数;-k删除默认的acl参数;-R递归设置acl;-d设置默认的acl，只对目录有效
+	setfacl [-m|-x] [bkRd]
+		-b　删除所有ACL参数
+		-k　删除默认ACL参数
+		-R　递归设置ACL参数，包括子目录
+		-d  设置默认ACL参数，只对目录有效
+		
+		-x　删除后续的ACL参数
+		-m  设置后续的ACL参数
+
+		-m u:mxx:rw my_file
+			
+	getfacl my_file
+
+	针对有效权限mask的设置
+	setfacl -m m:rwx my_file
+	mask在此可以来规定最大允许的权限。取得是mask和用户以及用户组的权限交集。		若用户mxx的权限为rwx 但是mask为r--，那么mxx的权限只能为r--.
+	
+	~#:setfacl -m d:u:mxx:rwx file　递归设置目录的acl
+	~#:setfacl -m m:rw acl_test
+	~#:setfacl -m g:mxx:rwx acl_test
+	~#:getfacl acl_test
+	~#:setfacl -b file 删除acl
+69.切换用户，切换账号
+	su[- -l -m -c]
+	su - 切换到root用户以login shell变量的读取方式
+	su 切换到root用户，以nologin shell变量的读取方式登陆系统
+｀｀	su -l 加想要切换的账号login shell	
+	su -c 只提升一次到root权限
+	su -m 使用目前用户的环境变量，不读取新用户的配置文件
+
+	su - -c cat /etc/shadow
+
+	sudo -u mxx ...提升到mxx权限
+
+70.visudo的设置
+	1.
+	visudo 修改/etc/sudoers
+	其他用户使用root身份
+	root ALL=(ALL) ALL
+	用户账号
+	登陆者的来源主机名，
+	可切换的身份
+	可执行的命令
+	2.
+	最左边加一个%表示用户组
+	利用用户组以及免密码
+	%wheel ALL=(ALL) ALL
+	usermod -a -G wheel user
+	
+	免密
+	%wheel ALL=(ALL) NOPASSWD: ALL
+	3.
+	mxx ALL=(root) /usr/bin/passwd
+	mxx可以切换到root的身份使用passwd命令
+
+	mxx ALL=(root) !/usr/bin/passwd, /usr/bin/passwd [A-Za-z]*,\
+			!/usr/bin/passwd root
+	4.别名设置
+	User_Alias MYUSER=mxx,mahuihui
+	Cmnd_Alias MYCOMMAND=!/usr/bin/passwd, /usr/bin/passwd [A-Za-z]*,\
+			!/usr/bin/passwd root
+	MYUSER all=(root) MYCOMMAND
+
+	5.用自己的密码切换成root
+	
+	sudo su -
+
+
+71.PAM模块介绍
+	P434
+
+72.用户信息传递
+
+	查询用户
+	w	who	last	lastlog
+
+	用户对谈
+	
+	mesg y
+	mesg n
+	
+	write	
+	write mxx tty1
+	
+	wall "hello"　每个人都会收到
+
+	mail mahuihui -s "Hi,mahuihui,nihaoa"
+	...
+	...
+	ctrl+d
+	
+	mail 收信
+	?查看命令
+	
+	q离开,离开后，会将该信件移动到~/home/mbox，收信箱
+	读取
+	mail -f /home/mxx/mbox	
+
+73.手工添加账号
+
+	pwck
+	
+	pwconv将/etc/passwd相关信息移动到/etc/shadow,把在/etc/passwd中存在的账号			但是在/etc/shadow没有对应密码的列新增密码
+	
+	grpconv
+	
+	pwunconv	
+		
+	chpasswd	修改密码
+	echo "mxx:mypaswd" | chpasswd -m
+
+新建账号
+	vim /etc/group
+	mygroup:x:1020:
+	grpconv
+
+	vim /etc/passwd
+	myuser:x:1200:1020::/home/myuser:/bin/bash
+	pwconv
+	
+	passwd myuser
+	
+	cp -a /etc/skel /home/myuser
+	chmod -R myuser:mygroup /home/myuser
+	chmod 700 /home/myuser	
+
+
+LINUX使用者管理
+	
+74.quota示范
+  文件系统开启quota
+	df -h /home
+	mount -o remount,usrquota,grpquota /home
+	mount | grep 'home'
+	cat /etc/mtab
+	/etc/mtab会被写入这些操作
+	
+	或者写入/etc/fstab
+	vim /etc/fstab
+	LABEL=/home /home ext4 defaults,usrquota,groquota
+	
+	umount /home
+	mount -a
+	mount | grep 'home'
+  新建quota配置文件
+	sudo apt-get install quota
+	quotacheck [-avugmf]
+		-c 创建磁盘配额数据文件
+		-a 创建在/etc/mtab所有磁盘的配额数据库文件，使用此参数，后无需加			挂载点
+		-u 创建用户的磁盘配额数据库文件
+		-g 用户组的
+		-m 把一起的磁盘配额信息清除，对/分区创建时，必须用此参数
+		-v 显示创建的过程
+  启动quota
+	quotaon [-avug]　[挂载点]
+		-a 根据/etc/fstab的设置来启动有关的quota
+		-v
+  关闭quota
+	quotaoff [-aug] [mount-point]
+
+  编辑quota
+	edquota [-ugtp] 
+		-t 修改宽限时间 
+		-p 复制范本，，模板账号为已存在并设置好quota的账号
+			edquota -p 范本账号 -u 新账号
+		edquota -u myquota
+		edquota -g myquotagrp
+  		edquota -t
+		edquota -p quotagrp -u myquota
+
+  quota的报表表
+	单一用户
+	quota [-ugvs]
+		-s 以1024的整数倍显示
+	
+	repquota [-a] [-uvgs] 
+		/dev/sda[012]
+
+　warnquota	root给用户以及root发邮件　P461
+
+	 在 /etc/warnquota.conf 中设置邮件内容
+
+　setquota [-u|-g] name block(soft) block(hard) inode(soft) inode(hard) 文件系统		
+	setquota -u myquota5 2000 3000 0 0 /home
+	quota-uv myquota5
+
+75.磁盘阵列
+	
+  新建raid
+	mdadm --detail	后面接的那个磁盘阵列设备的具体信息
+	madam --create 为新建raid的参数
+		--auto=yes /dev/md[01...]
+		--raid-device=N	使用几个raid作为磁盘阵列的设备
+		--spare-device=N　使用几个磁盘作为备用
+		--level=[0125]	这组磁盘阵列的等级是0,1还是5之类的
+
+
+	~#:mdadm --create --auto=yes /dev/md0 --level=5 --raid-device=3 --spare-device=1 /dev/sdb{5,6,7,8}
+	创建raid需要时间
+	创建好之后
+	~#:mdadm --detail /dev/md0 
+	查看建好的RAID
+	~#:cat /proc/mdstat
+	~#:mkfs -t ext4 /dev/md0
+	~#:mkdir /mnt/raid
+	~#:mount /dev/md0 /mnt/raid
+	~#:df
+
+  管理raid
+	mdadm --manage /dev/md[0-9] [--add 设备] [--remove 设备] [--fail 设备]
+		~#:mdadm --manage /dev/md0 --fail /dev/sdb6
+		~#:mdadm --detail /dev/md0
+		~#:cat /proc/mdstat
+		过一段时间在执行会发现以及将坏的设备更新了
+		~#:mdadm --detail /dev/md0
+		~#:mdadm --manage /dev/md0 --add /dev/sdb9 --remove /dev/sdb10
+		
+	
+  开机自动加载raid
+	~#mdadm --detail /dev/md0 | grep -i 'uuid'
+	~#:vim /etc/mdadm/mdadm.conf
+		ARRAY /dev/md0 UUID=.....
+	~#:vim /etc/fstab
+		/dev/md0 /mnt/raid ext4 defaults 1 2
+	~#:umount /dev/md0 
+	~#:mount -a
+	~#:df
+	
+
+  关闭raid
+	~#:vim /etc/fstab
+		# /dev/md0 ..
+	~#:mdadm --stop /dev/md0
+	~#:cat /proc/mdstat
+	~#:vim /etc/mdadm/mdadm.conf
+
+76.LVM的制作
+	LVM Logical Volume Manager
+	PV physical volume
+	VG volume group
+	PE physical extend
+	LV logical volume
+	
+	LV的写入机制
+	线性机制
+		若有两个设备/dev/sda1,/dev/sdb1,他们都在一个VG中，并且只有一个LV
+		线性机制就是在一个设备完全写满之后，再向另一个设备写入
+	交错模式
+		。。。
+
+　a.新建分区
+	~#:sudo fdisk /dev/sdb
+		new /dev/sdb{5,6,7,8,9,10}
+		t 8e(Linux LVM)
+		w
+	~#:partprobe
+  b.安装应用
+	sudo apt-get install lvm2
+  c.PV物理卷的新建
+	pvcreate 将物理分区新建为PV分区
+	pvscan 查询目前系统里具有PV的磁盘
+	pvdisplay 显示目前系统上面的PV状态
+	pvremove 将PV属性删除
+	
+	pvmove 将某个设备内的pe给移动到另一个设备
+		pvmove /dev/sdb5 /dev/sdb9
+
+	~#:pvscan
+	~#:pvcreate /dev/sdb{5,6,7,8}
+	~#:pvscan 
+	~#:pvdisplay
+	
+  d.VG卷用户组的新建
+	vgcreate 新建VG
+	vgscan 查找目前系统上的VG
+	vgdisplay 显示目前系统上的VG状态
+	vgextend 在VG内新增额外的VG
+	vgreduce 在VG内删除PV
+	vgchange 设置VG是否启动
+	vgremove 删除一个VG
+	VG名称是自己定义的。而PV名称实际上是分区的设备文件名
+
+	vgcreate [-s] VG名称 PV名称
+		-s　后面接PE的大写,单位可以是m,g,t (支持大小写)
+	~#:vgcreate -s 16M mxxvg /dev/sdb{5,6,7}
+	~#:vgscan
+	~#:pvscan
+	~#:vgdisplay
+	vgextend VG名称　PV名称
+	~#:vgextend mxxvg /dev/sdb8
+	~#:vgdisplay
+  
+  e.LV逻辑卷的新建
+	lvcreate 新建lv
+	lvscan 查询系统上的lv
+	lvdisplay 展示系统上的lv
+	lvextend 在lv里增加容量
+	lvreduce 在lv里减少容量
+	lvremove 删除一个lv
+	lvresise 对lv的大小进行重新调整
+
+	lvcreate [-lLs] [-n lv名称]　vg名称
+		-l 后接的是PE的个数
+		-L 后接的是vg的容量
+		-n 后接lv的名称
+		-s snapshot 快照
+	~#:lvcreate -l 252 -n mxxlv mxxvg
+	~#:ls -l /dev/mxxvg/mxxlv
+	~#:lvscan
+	~#:lvdisplay
+	
+  f.文件系统新建
+	~#:mkfs -t ext4 /dev/mxxvg/mxxlv
+	~#:mkdir /mnt/lvm
+	~#:mount /dev/mxxvg/mxxlv /mnt/lvm
+	~#:df -h .
+  
+  g.增加lv容量
+	~#:sudo fdisk /dev/sdb
+		new /dev/sdb9
+	~#:pvcreate /dev/sdb9
+	~#:pvscan
+	~#:vgextend mxxvg /dev/sdb9
+	~#:vgdisplay
+	增加lv的容量
+	~#:lvresize -l +63 /dev/mxxvg/mxxlv	
+	~#:lvdisplay
+	~#:df -h /mnt/lvm
+	
+	此时虽然lv显示的容量增大，但是对应的/dev/mxxvg/mxxlv文件系统还没有改变
+	~#:dumpe2fs /dev/mxxvg/mxxlv
+	重新计算文件系统
+	resizefs [-f] [device] [size]
+		-f 强制进行resize
+		device 后接的文件系统或者是设备名
+		size 如果没有size默认为整个文件系统，如果有size的话，必须给一个				单位
+	~#:resize2fs /dev/mxxvg/mxxlv   //可在线进行resize
+
+  h.缩小lv容量
+　　　先计算需要缩小多少
+	~#:pvscan
+	~#:pvdisplay
+　　　缩小文件系统容量
+	放大可以直接进行，但是缩小需要先卸载
+	~#:umount /dev/mxxvg/mxxlv
+	~#:resize2fs /dev/mxxvg/mxxlv 3900M
+	报错需要用e2fsck
+	~#:e2fsckk -f /dev/mxxvg/mxxlv 
+	~#:resize2fs /dev/mxxvg/mxxlv 3900M
+	~#:mount /dev/mxxvg/mxxlv /mnt/lvm
+	~#:df -h /mnt/lvm
+　　　降低lv容量
+	~#:lvresize -l -63 /dev/mxxvg/mxxlv
+	~#:lvdisplay
+      转移pv
+	~#:pvdisplay
+	~#:pvmove /dev/sdb5 /dev/sdb9
+　　　删除vg
+	~#:vgreduce mxxvg /dev/sdb5
+      删除pv	
+	~#:pvscan
+	~#:pvremove /dev/sdb5
+     
+
+77.LVM的快照
+	需要有未使用的PE块
+	所以需要新加入一个PV块
+	
+	~#:vgdisplay
+	~#:pvcreate /dev/sdb5
+	~#:vgextend mxxvg /dev/sdb5
+	~#:vgdisplay
+	~#:lvcreate -l 40 -s -n mxxlv_ss /dev/mxxvg/mxxlv
+		-s snapshot
+	~#:lvdisplay
+	复原的数据是不能比快照区的大小大的，此处不能大于40个PE
+	
+	接下来改变LVM中的数据，会发现lvm与快照区是不同的
+	~#:cd /mnt/lvm
+	~#:cp -a /home/mxx/my.iso /mnt/lvm
+	~#:lvdisplay 会发现lv的快照区已经被使用了
+	~#:df 会发现原始文件与快照区文件系统也是不同的
+	
+　　利用快照区进行备份
+	~#:tar -cvj -f /home/mxx/my.bak/lvm.bak.tar.bz2 *
+	~#:umount /mnt/snapshot
+
+	将快照区进行删除，因为已经被备份
+	~#:lvremove /dev/mxxvg/mxxlv_ss 
+
+	~#:umount /mnt/lvm
+	~#:mkfs -t ext4 /mnt/lvm
+	~#:mount /dev/mxxvg/mxxlv /mnt/lvm
+
+	将备份的数据还原，那么这个文件系统就会和原来一样了
+	~#:tar -xvj -f /home/mxx/my.bak/lvm.bak.tar.bz2 /mnt/lvm
+	~#:ls -l /mnt/lvm
+	
+　　LVM的关闭
+	先卸载lvm系统，包括快照与原系统
+	再使用lvremove删除LV
+	使用vgchange -a n VG 名称 让其不再为active
+	使用vgremove删除VG
+	使用pvremove删除PV
+	最后使用sudo fdisk 修改System ID
+
+	~#:umount /mnt/lvm
+	~#:lvremove /dev/mxxvg/mxxlv
+	~#:vgchage -a n mxxvg
+	~#:vgremove mxxvg
+	~#:pvremover /dev/sdb{5,6,7,8}
+	~#:sudo fdisk -l 
+
+例行性工作
+78.at仅执行一次的工作调度
+	/etc/at.allow
+	/etc/at.deny
+	at [-lmdvc] TIME
+		-m 当at完成时，即使没有输出信息，以mail通知用户
+		-v 可以使用较明显的时间格式列出at调度中的工作
+		-c 可以列出后面接的该项工作的实际命令内容
+		-d 相当于atrm，可以取消一个at工作
+		-l 相当于atq，列出目前系统上所有该用户的at调度
+	TIME
+	  HH:MM	
+		04:00
+	  HH:MM YYYY-MM-DD
+	  	05:00 2016-10-05
+	  HH:MM[pm|am] [Month] [Date] 
+		04 January 10
+	  HH:MM [am|pm] + number [minutes|hours|days|weeks]
+		now + 5 minutes
+		05pm + 3days
+	at 04pm + 10 days
+	at -c number
+	at -l//atq
+	
+	batch //当空闲时刻再执行
+
+79.例行性工作调度
+	cron
+	ubuntu中没有下面两个配置项
+	/etc/cron.allow
+	/etc/cron.deny
+	默认为所有用户都可以使用crontab
+	crontab [-u user] [-ler]
+		-u　只有root能设置这个参数
+		-l　列出所有的crontab工作内容
+		-e  编辑crontab的内容
+		-r　删除所有crontab的内容
+	
+	新建crontab
+	！！！！周与月日不可共存
+	~#:crontab -e
+	* * * * * cmd
+	分钟　小时　日期　月份　星期
+	* 任何时刻
+	- 时间范围 0-59
+	, 分隔 3,6,9
+	/n */5每过五个单位(分钟，小时，天)
+	!!!crontab -r
+	~#:crontab -r # 会把所有的crontab都删处理
+	要删除一个，请用crontab -e
+	
+　　　开启/var/log/cron.log
+	~#:vim /etc/rsyslog.d/50-default.conf
+	将rsylog文件中的#cron.*前的#去掉
+	~#:service rsyslog restart
+	~#:service cron restart
+	~#:vim /var/log/cron.log
+	
+	/var/spool/cron/crontabs/
+	该目录下为不同账号的crontab内容
+	
+	/etc/crontab 为系统的例行性任务
+	run-parts
+	/etc/cron.daily
+	/etc/cron.hourly
+	/etc/cron.monthly
+	/etc/cron.weekly
+	
+	自己可以新建run-parts，周期性执行
+	*/2 * * * * run-parts /etc/cron.minutely
+	*/5 * * * * run-parts /root/runcron
+	或者直接执行命令
+	* * * * * mxx /home/mxx/outputtime_fiveminutes.sh
+
+80.anacron 处理非24小时开机的系统
+	
+	anacron [-usfn] [job]
+		-u 更新记录文件的时间戳
+		-s 开始连续执行各项job，依据记录文件的时间戳判断是否进行
+		-f 强制执行，不管时间戳
+		-n 立即进行未进行的任务，而不延迟
+
+	/etc/cron*/*ana*
+	/etc/cron.daily/0anacron
+	0表示最先被执行，让时间戳先被更新，避免anacron误判
+
+	/etc/anacron	anacron的设置
+	
+　	/var/spool/anacron/*	
+	记录最近一次执行anacron的时间戳
+
+
+十七章、程序管理与SELinux初探
+	
+81.job control
+	tar -cvj -f ~/my.bak/etc20161006.tar.bz2 /etc &
+	&表示将程序放入后台
+	但是如果有STDOUT以及STDERR都会被显示在屏幕上，可以采用数据流重定向来完成	
+	tar -cvj -f ~/my.bak/etc20161006.tar.bz2 /etc > ~/tmp/log.txt 2>&1 &
+	这样stdout以及stderr会被输入进~/tmp/log.txt
+	
+82.将正在工作的程序放入后台(避免被ctrl+c终止,而非系统的后台)
+	ctrl + z 
+	[num] 表示第几个后台工作，+表示最后一个被丢入后台，-表示最后第二个被丢入后台，最后第三个以及以上不显示
+	
+	jobs [-lsr] 查看目前后台的jobs
+		-l 列出所有的后台jobs，包含pid
+		-s 列出停止的后台jobs，
+		-r 列出正在运行的jobs,
+	
+83.fg (foreground)将后台的工作拿到前台
+	fg %jobnumber
+	fg +/-
+
+   bg 让后台的工作变成运行状态
+
+84.kill -signals %jobnumber 删除某个job
+	-l	列出所有能使用的signal
+	-1	重新读取一次参数的配置文件
+	-2	与ctrl + c　一样
+	-9	强制删除一个job，非正常状态
+	-15	让一个job正常结束
+	
+	
+85.nohup　[命令与参数] [&]有&表示在终端机后台执行，没有&表示在终端机前台执行，
+	即使脱机或者注销系统后仍然会执行
+	输出为nohup.out
+	
+	
+86.进程的查看
+　　　a.
+	ps [-Aauf] [xlj]	
+		-A 所有的进程全部显示出来
+		a 现行终端机下所有程序，包含其他用户
+		u 有效用户相关的进程，主要以用户为主的格式来区分
+		f 用ASCII字符显示树状结构，表达进程间的关系
+		x　通常与a这个参数一块使用，显示所有程序，不以终端机来区分
+		l　较长，较详细的将该PID的信息列出
+		j　工作的格式
+	~#:ps aux　查看系统所有的进程数据
+	~#:ps -lA　查看所有系统的数据
+	~#:ps axjf　连同部分进程树状态
+    b.
+	~#:ps -l #仅查看自己相关的bash进程
+	
+	F S UID PID PPID C PR NI ADDZ SZ WCHAN TTY TIME CMD
+	F  说明进程权限
+	S　进程状态STAT
+		R(running)　S(sleep)　D(不可被唤醒的睡眠状态,通常是IO的进程)　T(stop)　Z(zombie僵尸状态)进程已终止，但无法被删除到到内存外,PCB还在，但是其他资源全部被收回，是由父进程负责收回资源。
+	UID/PID/PPID
+	C CPU使用率
+	PR/NI  Priority/Nice的缩写，此进程被CPU执行的优先级
+	ADDR/SZ/WCHAN都与内存有关，ADDR是kernel function ,指出该进程在内存的哪个部分，如果是个running的过程，显示-;SZ代表用掉多少内存;WCHAN表示目前进程是否运行，-表示正在运行
+	TTY	使用的终端接口
+	TIME	使用掉的CPU时间，而不是系统时间
+	CMD	command缩写,造成此进程被触发的命令
+	
+    c.	
+	~#:ps aux 查看系统所有进程
+	
+	USER PID %CPU %MEM VSZ RSS TTY STAT START TIME COMMAND
+	USER	
+	PID	
+	%CPU	该进程使用掉的CPU资源百分比
+	%MEM	该进程占用物理内存百分比
+	VSZ	该进程占用虚拟内存量
+	RSS	该进程占用固定内存量(KB)
+	TTY	pts/0　表示由网络连接进主机的进程
+	STAT	进程状态
+	START	该进程被触发的时间
+	TIME	CPU时间
+	COMMAND		该进程实际命令
+	
+	僵尸进程(<defunct>)
+
+    d.top动态查看进程的变化
+	top [-d 数字] | top [-bnp]
+		-d　整个进程界面更新的秒数
+		-b  以批次的方式执行top，
+		-n  与-b搭配，意义是，需要进行几次top的输出结果
+		-p  指定某个PID来查看
+		在top执行中可以使用的命令
+			?查询所有的命令
+			P 按CPU使用率排序
+			M Mem排序
+			N PID排序
+			T CPU累计时间排序
+			k 给某个PID一个信号
+			r 给某个PID重新制定一个nice值
+			q 离开top软件
+	~#:top -d 2 #每两秒钟刷新一次top，默认为5s
+	~#:top -b -n 2 > ~/tmp/top.out
+	
+    e.top显示的内容
+	第一行top
+	目前时间　
+	开机到现在时间　up n days , hh:mm 
+	登陆的用户
+	系统在1,5,15分钟时的负载，batch工作方式负载小于0.8即为这个负载，代表的是1,5,15分钟，系统平均要负责多少个程序。越小说明系统越闲
+	第二行task
+	目前进程总量，分别有多少个处于什么状态，不能有处于zombie的进程，
+	第三行%cpu
+	wa代表的是I/Owait，系统变慢都是由于I/O产生问题较多
+	第四五行内存和swap使用情况，swap被使用的应该尽量少，否则说明物理内存实在不足。
+	第六行
+	PID USER PR NI VIRT RES SHR S %CPU %MEM TIME+ COMMAND
+	PID　每个进程ID
+	USER　该进程所属用户
+	PR　Priority 进程的优先级顺序，越小越早被执行
+	NI　Nice 与Priority有关，越小越早被执行
+	VIRT
+	RES
+	SHR
+	S	STAT
+	%CPU　CPU使用率
+	%MEM　内存使用率
+	TIME+  CPU使用时间的累加
+	COMMAND 
+
+   g.pstree [-A|-U] [-up]  #进程树
+		-A  各进程树直接以ASCII字符连接
+		-U  各进程树之间以utf-8字符连接
+		-u  显示进程所属账号名
+		-p  显示pid
+	~$:pstree -Aup
+
+
+87.进程的管理
+	查看signal种类请使用
+		man 7 signal
+     a.
+	kill -signal PID
+		kill -signal %jobnum
+		kill -signal pid	
+	这两种情况是不同的，第一种是job，第二种是pid,不能弄混
+
+     b.killall [-iIe]  用来删除某个服务，利用killall可以将系统中所有以某个命令启动的服务全部删除
+	-i iteractive
+	-e exact	
+	-I 忽略大小写
+	
+	~#:killall utserver
+	~#:killall -1 syslogd
+	~#:killall -9 httpd
+	~#:killall -i -9 bash
+	
+
+88.进程的调度
+	PRI(priority)与NI(nice)
+	PRI值是由内核动态调整的，用户无法直接调整PRI值
+	PRI(new)=PRI(old)+nice
+	
+	nice值虽然可以影响PRI，但是并不是说原来PRI为50,nice为5,就会让PRI变为55,
+这是需要经过系统分析之后决定的
+	
+	nice值
+	a.可调整范围为-20~19
+	b.root可随意调整任何人的nice值-20~19间的任意一个值	
+	c.一般用户仅可以调整自己nice值，且范围在0~19
+	d.一般用户仅可将nice值调高，而无法降低
+	e.调整nice值的方法
+	    新执行的命令手动设置nice值
+		nice -n [number] command
+		~#:nice -n -5 vim &
+	    
+       	    已存在的进程调整nice值
+		renice [number] command
+		~#:ps -l | grep '*bash$'
+		~#:renice 10 $(ps -l|grep 'bash$' | awk '{print $4}')
+
+88.系统资源的查看
+
+	a.查看内存使用情况
+		free [-bkmg] -t
+		-t	输出结果中显示free和swap加在一起的总量
+		
+	b.查看系统与内核相关信息
+		uname [-asrmpi]
+			-a 所有系统相关的信息，
+			-s 系统内核名称
+			-r 内核版本
+			-m 本系统硬件名称
+			-p CPU类型，与-m类似，显示的是CPU类型
+			-i 硬件平台
+	c.查看系统启动时间与工作负载	
+		uptime
+	
+	d.查看网络
+		netstat [-atunlp]
+			-a 将目前系统上所有连接监听，socket列出来
+			-t 列出tcp网络数据包的数据
+			-u 列出udp网络数据包的数据
+			-n 不列出进程的服务名称，以端口号来显示
+			-l 列出目前正在网络监听(listen)的服务
+			-p 列出该网络服务的进程pid
+		~#:netstat -tnlp　　#找出目前系统上已经在监听的网络连接及其PID
+	e.分析内核产生的信息
+		dmesg | more
+		dmesg | grep -i 'sd'
+		dmesg | grep -i 'eth'
+	f.动态分析系统资源使用情况
+		man vmstat 查看各字段含义
+
+		vmstat		动态查看系统资源
+		vmstat [-a]     display active and inactive memory
+		vmstat [-d]	report sisk statistics
+		vmstat [-p 分区]　Detailed statistics about partition
+		vmstat [-S 单位]  B K M G 
+		vmstat [-f]  displays the num of forks since boot
+		~#:vmstat 
+		~#:vmstat -a 
+		~#:vmstat -p /dev/sda1
+		~#:vmstat -S M
+		~#:vmstat -f
+89.特殊文件与程序
+	
+	a.具有SUID，SGID的程序
+		如passwd，当触发passwd之后，会取得一个新的进程与PID,该PID产生时通过SUID给予该PID特殊的权限设置。
+	在一个bash中执行passwd会衍生出一个passwd进程，而且权限为root
+	~#:passwd &
+	~#:pstree -up找到该进程
+
+90./proc/* 的意义
+	/proc/cmdline	加载kernel执行的参数
+	/proc/cpuinfo	CPU相关信息
+	/proc/devices	主要设备代号　与mknod相关
+	/proc/filesystems	目前已加载的文件系统
+	/proc/interrupts	系统上IRQ分配状态
+	/proc/ioports	目前系统上每个设备配置的I/O地址
+	/proc/loadavg	top/uptime显示的负载
+	/proc/kcore	内存大写
+	/proc/meminfo	free
+	/proc/modules	目前系统已加载的模块列表，可想成驱动程序
+	/proc/mounts　mount
+	/proc/swaps  系统加载的内存使用的分区记录
+	/proc/partitions　fdisk -l
+	/proc/pci　PCI总线上每个设备的详细情况　lspci
+	/proc/uptime　uptime
+	/proc/version　内核版本 uname -a
+	/proc/bus/*　总线设备，USB设备
+
+91 查询已打开文件或者已执行程序打开的文件
+　　a.fuser [-muv] [-k [i] [-signal]] name
+	 #通过文件找到使用该文件的程序
+		-m	后面接的文件名会主动提到文件顶层
+		-u	user
+		-v	verbose
+		-k	SIGKILL
+		-i	询问用户，与-k搭配
+		-signal  -1,-15等，默认为-9
+	
+	~#:mount -o loop ubuntu.iso /mnt/iso
+	~#:cd /mnt/iso
+	~#:umount /mnt/iso
+	error
+	~#:fuser -muv 	/mnt/iso
+	.....
+	~#:cd 
+	~#:umount /mnt/iso
+
+	~#:fuser -muv /proc
+	~#:fuser -ki /bin/bash
+
+　　　b.lsof [-uaU] [+d]
+	#找到被进程打开的文件
+		-a 相当于and连接符
+		-u 某个用户的相关进程打开的文件
+		-U Unix like 的socket文件类型
+		+d 某个目录下被打开的文件
+
+	~#:lsof +d ~/Desktop
+	~#:lsof -u mxx | grep 'bash'
+	~#:lsof -u mxx -a -U
+
+      c.pidof [-sx] program_name
+	#找出某个正在进行的进程的pid
+		-s 仅列出一个pid而不列出所有的pid
+		-x 列出该进程可能的ppid的pid
+
+
+92.SELinux (Seurity Ehanced Linux)
+
+	DAC(自主访问控制)
+	
+	MAC(强制访问控制),针对特定的进程与文件进行权限的控制
+	
+93.SELinux的启动，关闭和查看
+	
+　　a.查看	/etc/selinux/config
+	~#:getenforce
+	enforcing:强制模式，已开启
+	permissive:宽容模式，正在运行，但是仅会有警告信息，并不会实际限制domin/type的访问
+	disabled:关闭
+　　b.查看策略
+
+
+
+94.
+
+95
+96.
+97.
+98.
+第十八章　认识系统服务
+
+服务(service):系统为了某些功能提供的一些服务(包括系统本身以及网络服务)
+daemon:实现service的程序叫做daemon
+
+	
+99.daemon的分类
+	a.stand_alone daemon
+		自行独立启动，不用通过其他机制，启动并加载到内存后就一直占用内存与系统资源。因此对于客户端的请求响应特别快。
+		WWW的daemon(httpd)，FTP的daemon(vsftpd)
+		
+	b.super daemon
+		由一个统一的daemon来唤起服务，这个特殊的daemon叫做super daemon早期是inetd,后来被xinetd替代了。没有客户端请求时，服务被关闭，收到客户端请求时，super daemon唤醒相应的服务，请求结束后，这个服务就会关闭，服务反应时间会比较慢。常见的有telnet服务
+
+	signal-control和interval-control
+	信号管理的daemon以及每隔一段时间主动执行某项工作的daemon
+	每一个服务程序文件名都会加上d，d代表daemon
+	
+100./etc/services服务端口的对应
+	查询service的端口号
+	服务以及端口号
+	~#:grep 'time' /etc/services
+	
+
+101.daemon的启动方式以及启动脚本
+
+　　a.一些配置文件
+	/etc/init.d/*　 #基本上所有的服务启动脚本都被放置在该目录
+	/etc/default	#一些配置文件
+	/etc/*	#各服务各自的配置文件
+
+	!!!!xinted默认在ubuntu中是不存在的,
+	~$:sudo apt-get install xinetd
+	/etc/xinetd.conf   #super daemon配置文件
+	/etc/xinetd.d/*	   #它所管理的进程
+	
+	/var/lib/*	各服务产生的数据库
+	/var/run/*	各服务的程序的pid记录处
+	
+    b.stand alone的启动
+	用/etc/init.d/*启动
+	~#:/etc/init.d/cron start|stop|status|restart|reload|force-reload
+	
+	用service [service-name] (start|...)启动
+
+	service-name必须与/etc/init.d/相照应
+	--status-all 将所有的stand_alone服务列出来
+	
+	~#:service --status-all
+	~#:service cron
+	
+	grep -i 'disable' /etc/xined.d/*
+　　c.super daemon的启动方式
+	super daemon本身也是一个stand　alone的服务，但是它所管理的其他文件就不是这样了
+	
+	查看某个服务是否可用。
+	~#:grep -i 'disable' /etc/xinted.d/*
+	disable表示取消，若为yes，表示该服务未开启，no表示开启
+	
+	若要开启time服务
+	~#:vim /etc/xinted.d/time
+	将disable改为no
+	重新启动xinted服务
+	~#:service xinted restart
+	!!!!!注意是重启xinted服务
+	
+	查看该服务的信息
+	~#:grep -i 'time' /etc/services
+	~#:netstat -nltp | grep 'time port'
+	
+
+　　 d.默认值配置文件以及一些参数的值
+	/etc/xinetd.conf
+	log_type	SYSLOG daemon info 日志文件的记录服务类型
+	log_on_failure	发生错误时需要记录的信息
+	log_on_success	成功启动时的记录信息
+	cps	同一秒内的最大连接个数，若超过则暂停
+	instance	同一服务的最大连接数
+	per_source	同一来源的客户端的最大连接数
+	v6only	是否运行ipv6
+	groups	
+	umask
+	
+	service <service name>
+	{
+		
+	}
+	
+	disable	启动与否
+	id	服务识别
+	server	程序文件名	这个服务的启动程序
+	server_args	程序参数	设置server_args=--daemon
+	user	服务所属id
+	group	用户组	
+	socket_type	数据包类型	stream|dgram|raw stream使用tcp,   udp使用dgram,raw代表erver需要与ip直接交互。
+	protocol	数据包类型	tcp|udp与socket_type重复，
+	wait	连接机制	yes(single) no(multi) 一般udp为yes，tcp为no
+	instances	最大连接数
+	per_source	单用户来源	(一个数字或者NULIMTED)
+	cps	新连接限制
+	log_type	日志文件类型	以什么日志选项记载和需要记载的等级(默认为info)
+	log_on_success,log_on_failure,设置值,[PID,HOST,USERID,EXIT,DURATION]
+		PID为服务启动时的pid,host为远程主机的ip，userid为登陆者的账号，EXIT为离开时记录的项目，DURATION为该用户使用此服务多久。
+	env	额外环境变量设置	设置环境变量
+	port	非正规端口号	设置不同的服务与对应的端口号，port与服务名必须与/etc/services的值相同
+	redirect	服务转址	[IP port] 将客户端的请求转到另一台主机
+	includedir	调用外部设置	表示将某个目录所有文件都放入xinetd.conf中，
+	bind	服务端口锁定	运行此服务的适配卡
+	interface	与bind相同
+	only_from	[0.0.0.0,192.168.1.0/24,hostname,domainname]设置为这里面的ip或者主机名才能访问，0.0.0.0表示所有主机皆能访问，如果是192.168.1.0/24则表示为C　class的域，即由(192.168.1.1~192.168.1.255)皆可登录。另外，也可选择域名，如bit.edu.cn表示运行北理工的ip登录你的主机
+	no_acess	表示的是不可登录的主机
+	acess_time	时间控制	[00:00-24:00,HH:MM-HH:MM]
+	umask	设置用户新建目录或者文件时候的属性
+
+	e.端口号小于1024启动者身份一定要是root
+	
+	f.实际动手设置一个/etc/xinted.d/下的服务
+
+102.ldd(library dependency discovery) 查询某个程序动态函数库支持状态
+	ldd $(which sshd)	
+
+103 ./etc/hosts.allow /etc/hosts.deny的设置
+	hosts.allow 优先级大于
+	vim /etc/hosts.allow
+	#服务名称	允许访问Ip地址	操作(可省略)
+	service_name : 127.0.0.100 :	 (allow)
+	
+	ALL	代表全部的程序或者ip都接受	ALL:ALL:deny
+	LOCAL	代表本机的意思	ALL:LOCAL:allow
+	UNKNOWN	不知道的IP或者域或者服务	
+	KNOWN	可解析的。。。
+
+104.############################ tcp wrappers 
+	
+	
+105.sysv-rc-conf(centos中的chkconfig)	查看默认启动的服务,
+	可以管理super daemon的服务，以及单独的daemon
+	--list [服务名称]
+	[--level [0123456]] [on|off]
+
+	~#:sysv-rc-conf --list
+	saned 0:off 2:on 3:on 4:on 5:on 6:on
+	.....
+	num:on显示的是第几个执行等级的服务状态
+
+	~#:sysv-rc-conf --level 345 atd on
+	将atd服务设置为在第三四五级为开启状态
+
+	~#:sysv-rc-conf rsync on 将设置默认启动的服务，但是并不能更改目前的状态，只能等到重启后才能生效
+
+106.#################################3xinted控制实例	
+
+
+认识与分析日志文件
+
+107.如何开启/var/log/message通过/etc/rsyslog.conf以及/etc/rsyslog.d/*
+	~#:cd /etc/rsyslog.d
+	~#:vim	50-default.conf
+	将某几行输出到/var/log/message的给解注释
+	~#:
+108.常见的日志文件名字
+	/var/log/cron.log	crontab调度有没有执行，有没有错误以及/etc/crontab是否正确编写
+	/var/log/lastlog	所有账号最后一次的登录信息，非ASCII文件
+	/var/log/mail.log	所有邮件的往来信息
+	/var/log/messages	各种错误信息
+	/var/log/secure		
+	/var/log/wtmp		登录成功与识别的账号信息
+	/var/log/apport.log	应用程序崩溃记录
+	/var/log/apt/*		apt-get 安装卸载软件的日志
+	/var/log/auth.log	登录认证log(与/etc/var/secure挺像)
+	/var/log/boot.log	系统启动的日志
+	/var/log/btmp		记录所有失败者的信息
+	/var/log/cups/* 		
+	/var/log/dist-upgrade	dist-upgrade这种更新方式的日志
+	/var/log/dmesg		内核缓冲信息
+	/var/log/dpkg.log	安装或dpkg命令清除软件包的日志
+	/var/log/faillog	用户登录失败信息，错误登录命令也会显示
+	/var/log/fontconfig.log	字体设置有关的日志
+	/var/log/fsck		文件系统日志
+	/var/log/hp		
+	/var/log/install	
+	/var/log/kern.log	内核产生的日志
+	/var/log/samba		samba存储的信息
+	/var/log/syslog		系统登录信息
+	/var/log/upstart	
+	/var/log/wtmp		包含登录信息，找出谁正在登录进入系统以及谁用命令显示这个文件或者信息等
+	/var/log/xorg.*.log	来自X的日志信息
+
+		
+109.rsyslog服务 以及配置文件/etc/rsyslog.conf /etc/rsydlog.d/*设置信息输出放在哪里
+	日志文件的产生方式
+	一种是软件开发商自行定义写入的日志文件以及相关格式，如apache.
+	另一种是交给linux的日志文件管理服务来统一管理，ubuntu中是rsyslog,centos中是syslog服务
+	信息等级
+	info	基本信息
+	notice	除了info之外一些需要注意的内容
+	warn	警示的信息，可能有问题，但是不至于影响到daemon
+	err	重大错误，可能是配置文件错误
+	crit	比error还严重，
+	alert	已经很有问题
+	emerg	系统几乎要死机，可能是硬件有问题导致内核无法运行
+	[.=!]
+	.代表比后面等级要高(含该等级)的等级都记录下来，	
+	.=代表就是后续的等级
+	.!代表除了该等级之外的所有等级
+	mail.info	代表是mail的消息，只要是等级高于info的都会被记录下来
+
+110.将某两个程序的信息写入到一个指定的文件，在rsyslog.conf中设置
+	如news以及cron
+	news.*;cron.*	/var/log/cronnews
+	news.=news.warn;cron.=cron.warn	/var/log/cronnews.warn
+	
+	将所有的信息都记录入/var/log/messages，除了news,以及cron,mail
+	*.*;cron,news,mail.none	/var/log/messages
+	或者*.*;cron.none;news.none;mail.none;	/var/log/messages
+	
+	
+	创建自己的日志文件来记录一些信息
+	~#:vim /etc/rsyslog.d/50-default.conf
+	~#:*.info /var/log/mxx.info
+	~#:service rsyslog restart
+
+111.手动改动过日志文件之后，该文件将来不会再进行日志操作，
+	可以采用重新启动服务的方法，
+	~#:service rsyslog restart
+	
+	也可以设置隐藏属性，但是。。。。只能添加，不能被删除或者改动，那就很悲催啊
+
+112.############################日志文件服务器P585
+
+
+113./etc/sysconfig 与/etc/default
+
+
+114./etc/default/rsyslog是否是/etc/sysconfig中的那个SYSLOG_OPTIONS
+	RSYSLOG_OPTIONS=""
+
+115.logrotate日志轮转
+	/etc/cron.daily/logroate这个每天都会进行的例行工作进行日志轮转
+
+	/etc/logrotate.conf会将/etc/logrotate.d/*下的所有文件都包含进来。
+	日志轮转的配置
+
+	/etc/logrotate.conf的内容
+	weekly
+	rotate 4
+	create
+	#compress
+	
+	include /etc/logrotate.d
+	/var/log/wtmp
+	{
+		missingok	
+		monthly	
+		minsize	1M	文件容量一定要超过1M才进行(会略过时间参数)	
+		create 0664 root utmp	制定新建文件的权限以及所属账号
+		rotate 1
+	}
+
+	/etc/logrotate.d/*的内容
+
+	/etc/logrotate.d/rsyslog
+	文件名
+	参数
+	调用外部命令进行额外的命令执行。需要与sharedscripts以及endscripts
+		prerotate:在启动logrotate之前的进行的命令
+		postrotate:在做完logrotate之后启动的命令，如重新启动(kill -HUP)服务
+	
+		sharedscripts
+		prerotate
+		......
+		endscripts
+		sharedscripts
+		postrotate
+		......
+		endscripts
+
+	该设置的有效范围
+	kill -HUP
+	
+	实际测试logrotate的操作
+	logrotate [-vf] logfile
+		-v	启动显示模式
+		-f	不论是否符合配置文件的数据，强制每个文件都可以进行rotate的操作
+	~#:logrotate -v /etc/logrotate.conf
+	~#:logrotate -fv /etc/logrotate.conf
+
+116.自定义日志文件的替换功能　
+	~#:vim /etc/logrotate.d/mxxadmin
+	
+	.....
+	~#:logrotate -v /etc/logrotate.d/mxxadmin
+	~#:logrotate -vf /etc/logrotate.d/mxxadmin
+
+
+117.Linux的启动流程
+	BIOS   MBR    boot loader    boot sector
+	BIOS(Basic Input Ouput System)是一套程序,它被写死到主板上面的一个内存芯片，这个内存芯片没有电时也能将数据记录下来，那就是一个ROM(Read Only Memory)。BIOS是系统开机时首先会去读取的一个小程序，它控制着开机时候的各项硬件参数的取得，它掌握了系统硬件的详细信息以及开机设备的选择，BIOS程序代码也会被适度修改，但是如果写在ROM中是无法修改的，现在多把BIOS写入Flash Memory 或者EEPROM中。
+
+	BIOS通过硬件的INT13中断功能来读取MBR的，所以只要BIOS能检测到磁盘那么他就能够通过INT13这条信道来读取该磁盘的第一个扇区内的MBR，这样就能够执行boot loader
+
+	boot loader的最主要功能就是认识操作系统的文件格式并且加载该操作系统的内核到内存中执行。不同操作系统的文件类型不同，所以boot loader也是不同的，那么如果通过一个MBR来安装多操作系统呢。
+	对于文件系统来说，每个文件系统都会有保留一个引导扇区(boot sector)提供给操作系统来安装boot loader。
+	每个操作系统默认会安装一个boot loader到它的文件系统中。对于Linux来说，我们可以选择将boot loader安装到MBR，也可以不选择，那样boot loader只会安装在它自己的文件系统中的即是(boot sector)。但是Windows操作系统会默认直接将boot loader安装在MBR以及boot sector中，所以说安装双系统时，最好先装Windows，再装Linux，否则反过来的话，那么Windows的boot loader可能就会覆盖掉Linux的boot loader.
+	但是，系统的MBR只有一个，所以，如何执行boot sector中的boot loader呢，那就需要谈到boot loader的功能了。
+	boot loader的功能
+		提供菜单
+		加载内核文件
+		转交其他loader
+	我们可以通过MBR中的boot loader选择其他的loader，这样就可以选择其他的操作系统运行了。
+	通过boot loader的管理读取了内核文件之后，那么就要进行工作了，重新检测硬件等。
+	但是从某些版本之后，内核是可以动态加载内核模块的，这些模块被放在/lib/modules/目录内，模块放置到磁盘根目录内，因此，启动过程中内核必须要挂载根目录，这样才能动态读取内核模块提供加载驱动程序的功能。
+	一般来说，非必要的功能可以编译成模块的内核功能，许多Linux会将内核编译成模块。USB，SATA,SCSI等设备的驱动程序都是通过模块的方式存在的。
+	那么问题来了，内核是不认识SATA硬盘的，所以根目录无法挂载，更无法通过根目录下的/lib/modules来驱动SATA硬盘了。这时候，就用到了虚拟文件系统(/boot/initrd)来管理。
+	虚拟文件系统能够通过boot loader加载到内存中，解压缩被当成一个根目录，从而通过该程序加载启动过程中所最需要的内核模块,通常是USB,RAID,LVM,SCSI等文件系统以及硬盘的驱动程序。
+	需要initrd的原因是因为启动时无法挂载根目录，如果根目录能被挂载，那么就不需要了，根目录再USB,SATA,SCSI等磁盘，或者文件系统比较特殊，为LVM，RAID等，那么是需要
+	载入这些模块之后，initd就会帮助内核重新调用/sbin/init进行后续正常的启动
+	
+
+118.cpio备份。
+	cpio 不会主动寻找文件来备份。
+	需要配合find ls 等命令来备份
+	cpio -ovcB > [file|device]备份
+	cpio -ivcdu < [file|device]还原
+	cpio -itvc < [file|device]查看
+		-o	将数据复制输出到文件或者设备。
+		-v	将过程显示出来。
+		-c	portable format存储方式
+		-B	让默认的block大小增加
+		-d	还原时建立目录结构
+		-u	自动将较新的文件覆盖较旧的文件
+		-t	需配合-i参数，查看用cpio新建的文件或者设备的内容
+		-i	将数据自文件或者设备复制到系统中
+
+	~#:ls | cpio -ocvB > ~/my.bak/ls.cpio
+	~#:cpio -tvci < ~/my.bak/ls.cpio
+	~#:cpio -icvud < ~/my.bak/ls.cpio
+
+	cpio:permature end of file
+	将c参数去掉
+	即是
+	~#:cpio -ivud < ~/my.bak/ls.cpio
+
+119.ubuntu启动历程分析
+	upstar 与　System V initialization
+	
+	以K开头的为停止，以S开头的为启动的意思，S/K后面的两位数字代表的服务的启动顺序(由他们之间的依赖关系决定)
+
+   第一种，以前的System V initialization
+   ---------------------------------------------------------------------------
+	/etc/inittab再ubuntu中是没有的，在旧式的system V initialization中是非常重要的。inittab负责系统的初始化，设置系统runlevel以及进入个runlevel对应要执行的命令。
+	/etc/inittab的内容以及语法
+	~#:vim /etc/inittab
+	id:5:inindefault	默认的run level 等级，此处为5
+	
+	si:sysinit:/etc/rc.d/rc.sysinit	准备系统软件执行的环境的脚本执行文件
+	
+	10:0:wait:/etc/rc.d/rc 0 runlevel 0在/etc/rc.d/rc0.d/
+	....
+	16:6:wait:/etc/rc.d/rc 6 runlevel 6在/etc/rc.d/rc6.d/
+	
+	#:是否允许按下这三个键重启
+	ca:ctrlaltdel:/sbin/shutdown -t 3 -r now
+	
+	#设置不断电系统的，此处省略
+	pf:.
+	pr:
+	....
+	
+	#七个不同等级runlevel的需要启动的服务的script的路径
+	1:2345:respawn:/sbin/mingetty tty1
+	2:2345:respawn:/sbin/mingetty tty2
+	3:2345:respawn:/sbin/mingetty tty3
+	4:2345:respawn:/sbin/mingetty tty4
+	5:2345:respawn:/sbin/mingetty tty5
+	6:2345:respawn:/sbin/mingetty tty6
+
+	x:5:respawn:/etc/x11/prefdm -nodaemon <==X windows是由这行决定的
+
+	initdeafault	默认的runlevel
+	sysinit		系统初始化的选项
+	ctrlaltdel	是否可以重新启动
+	wait		必须等wait后命令执行完毕才能继续
+	respawn		重新生存一个可登陆界面
+
+	init的流程
+	
+	1.首先获得runlevel的默认等级，此处为5
+	2.使用/etc/rc.d/rc.sysinit进行系统初始化
+	3.由于默认等级是runlevel 5，那么只进行5:5:wait:/etc/rc.d/rc5.其他行略过
+	4.设置好ctrl+alt+del的功能
+	5.设置好pf,pr
+	6.启动终端机(tty1~tty6)
+	7.最终启动图形界面
+
+    ----------------------------------------------------------------------------   
+    
+　　第二种　upstart
+    ----------------------------------------------------------------------------
+	
+	System V initialization 是以runlevel为核心的，依据服务间依赖关系的。
+	但是在upstart　job中，虽然runlevel对于服务启动有影响，但是早已经不是那么重要了。upstart job是事件驱动的，系统服务的启动，停止，等等都是由事件决定的。系统服务的启动，停止也可以作为事件源触发其他服务。事件并不一定是由系统内部产生，用户还可以手动控制服务的启动与关闭。runlevel也被当做事件来对待。还有其他一些操作等等。！！！！！！！man upstart
+	/etc/init中的就是各个服务的配置文件，其中有关于他们什么时候启动终止的说明。
+	在系统的任何阶段都可以通过发送事件来启动或者终止服务，这就是upstart的优点，而system v initialization只能用于系统初始化阶段。
+	
+      upstart的init方式在
+	/etc/init
+      system v initialization的init方式
+	/etc/init.d   
+	/etc/rc${runlevel}.d   其实它是/etc/init.d的软连接
+	
+	这两种方式需要的目录都在ubuntu中，ubuntu中的init已经被替换为upstart init,但是system v 的服务是放在/etc/rc.${runlevel}.d中的，但是upstart并不能直接到其中去启动服务，它是通过/etc/init下的一些配置文件调用/etc/rc.${runlevel}.d中的服务来启动system v 的服务。
+	~#:cd /etc/init　
+	~#:ls | grep '^rc'
+	   rc.conf
+	   rc-sysinit.conf
+	   rcS.conf
+	rc-sysinit.conf在startup事件发生时被启动
+	rc.conf在系统runlevel变化时被启动
+	rcS.conf在系统runlevel为S时启动启动，他们是upstart　init处理system v服务的关键
+
+	当rc-sysinit被启动时，upstart init 首先读取rc-sysinit.conf并执行相关配置和脚本。rc-sysinit.conf中有设置系统默认runlevel，检测是否存在/etc/inittab或者内核命令行，按照内核命令行>/etc/inittab/>默认runlevel的顺序设置系统的runlevel,最后调用telinit进入设置的runlevel。
+	由于调用telinit进入了设定过的runlevel，所以runlevel改变事件发生，此时rc服务启动。
+	接下来查看rc的内容。在最后一行发现
+	/etc/init.d/rc $RUNLEVEL
+	
+
+
+	upstart有三个主要的进程
+	init		upstart主进程，是linux系统其他所有程序的源头，PID为1,它会读取配置文件，处理各种服务以及应用程序之间的关系，根据时间来启动这些功能与服务，并动态地进行管理。
+	initctl:upstart事件管理器，可以被应用程序用来通知init那些事情发生
+	telinit:管理运行级别，
+
+	每个服务都有一个conf配置文件在/etc/init中，指明了该服务执行的环境，任务属性，任务内容，以及依赖的事件。
+	
+	启动/sbin/init，upstart会经过一下流程
+	1.upstart内部初始化后，启动startup事件，系统开始初始化
+	2.依赖于startup事件的任务启动，最重要的是mountall，挂载硬盘和文件系统，并触发一系列事件：local-filesystems,vitual-filesystems,all-swaps等
+	3.vitual-filesystems事件触发udev相关的系列任务，用于管理事件设备。启动，upstart-udev-bridge把设备事件转化为upstart事件，而udevtrigger对于已经挂载的设备重新触发设备事件，因为udev启动的时候很多设备事件已经错过了。
+	4.udevtrigger会触发本地回环的网络接口启动(net-device-up)事件，经过这一阶段，127.0.0.1可用。
+	5.等到文件系统挂载完成，本地回环的网络接口启动，依赖于这两个事件的!!!!!!!!! rc-syinit启动，调用telinit设置了系统的运行级别，系统进入 !!!!!!!runlevel的管理。
+	rc-syinit中，使用telinit为系统设置了运行级别，触发runlevel事件，tty就依赖于runlevel事件的启动，系统的关机重启也取决于runlevel的变化。
+
+
+120.内核与内核模块
+
+	/lib/modules/${uname -r}/kernel	内核模块
+	/proc/version	内核版本
+	/proc/sys/kernel	系统内核功能
+
+　　a.内核模块与依赖性 /lib/modules/${uname -r}/kernel
+	arch	与硬件平台有关的选项，如CPU的等级
+	crypto	内核所支持的加密技术，如md5或者des
+	drivers	一些硬件的驱动程序，例如网卡，显卡，PCI等相关硬件
+	fs	内核所支持的文件系统
+	lib	一些函数库
+	net	与网络有关的各项协议，还有防火墙模块，(net/ipv4/netfilter/*)等
+	sound	与音效有关的模块
+
+	/lib/modules/${uname -r}/module.dep
+	depmod [-Ane]  	分析内核的所有模块
+	-A	不加任何参数，主动分析内核模块，并重新写入那个文件，加了-A，就会找比module.dep中更新的时候才更新。
+	-n	将结果输出到屏幕上
+	-e	显示目前已经加载的不看执行的模块名称
+
+　　b.lsmod	查看内核加载了多少的模块
+	
+	modinfo [-adln] [moudle_name|filename]
+	-a	仅列出作者名称
+	-d	仅列出该module的说明
+	-l	license
+	-n	--filename
+
+    c.insmod [/full/path/module_name] [parameter]
+	用户自行加载一个完整文件名的模块，并不会主动分析模块依赖性。
+	尝试载入cifs这个文件系统模块
+	~#:insmod /lib/modules/${uname -r}/kernel/fs/cifs/cifs.ko	
+	rmod [-fw] module_name
+		-f 强制删除，不管是否使用
+		-w 若正使用，那么等它停止后在删除
+	~#:rmmod cifs
+	
+    d.modprobe [-cfr] module_name 处理模块加载问题。
+	-c	列出目前系统所有的模块	
+	-f	强制加载该模块
+	-r	删除某个模块
+	
+	~#:modprobe cifs 加载某个模块。
+	~#:modprobe -r cifs
+
+    
+121.grub的设置
+	/boot/grub所有配置文件与相关的环境参数文件(包括文件系统定义与主要配置文件)
+	grub.cfg
+	default
+	timeout
+	直接指定内核启动
+	root
+	linux
+	initrd
+	利用chain loader的方式转交控制权
+	chainloader	
+
+
+122.
+
+123.
+
+124.vim_as_ide需要手动安装vim
+	手动安装vim
+    ~#:apt-get remove vim
+	~#:cd ~/github/
+	~#:git clone git@github.com:vim/vim.git
+	手动编译还需要一些头文件。
+	~#:apt-get install pythom-devel
+    ~#:apt-get install libgtk2.0-dev
+    ~#:apt-get install libgtk-3-dev
+    ~#:cd ~/github/vim
+    ~#:./configure --with-features=huge --enable-pythoninterp --enable-rubyinterp --enable-luainterp --enable-perlinterp --with-python-config-dir=/usr/lib/python2.7/config-x86_64-linux-gnu/ --enable-gui=gtk2 --enable-cscope --prefix=/usr
+    若报错
+     You need to install a terminal library; for example ncurses.      
+     Or specify the name of the library with --with-tlib.
+    ~#:apt-get install libncurses5-dev
+    ~#:make
+    ~#:make install
+
+    OK!!大工告成
+    配置.vimrc即可
+    
+    
+125.Ubuntu开机启动脚本编写
+    在/etc/init.d/目录下，编写脚本内容，比如是apache,就创建一个文件/etc/init.d/apache2,内容如下
+    #!/bin/sh
+    ### BEGIN INIT INFO
+    # Provides:          apache2
+    # Required-Start:    $local_fs $remote_fs $network $syslog
+    # Required-Stop:     $local_fs $remote_fs $network $syslog
+    # Default-Start:     2 3 4 5
+    # Default-Stop:      0 1 6
+    # Short-Description: apache2 service
+    # Description:       apache2 service daemon
+    ### END INIT INFO
+    start(){
+　　  启动dameon  脚本
+    }
+    stop(){
+　　　关闭这个dameon脚本
+    }
+    case “$1” in
+    start)
+　　　start
+　　　;;
+    stop)
+　　　stop
+　　　;;
+    reload)
+　　　stop
+　　　start
+　　　;;
+    *)
+　　　echo “Usage: $0 {start|reload|stop}”
+　　　exit 1
+　　　;;
+    esac
+    ~#:chmod a+x /etc/init.d/apache2
+    ~#:update-rc.d apache2 defaults
+
+126.查看cpu核数和cpu信息
+    ~#:lscpu
+    ~#:cat /proc/info
+    # 总核数 = 物理CPU个数 X 每颗物理CPU的核数 
+    # 总逻辑CPU数 = 物理CPU个数 X 每颗物理CPU的核数 X 超线程数
+
+    # 查看物理CPU个数
+    ~#:cat /proc/cpuinfo| grep "physical id"| sort| uniq| wc -l
+
+    # 查看每个物理CPU中core的个数(即核数)
+    ~#:cat /proc/cpuinfo| grep "cpu cores"| uniq
+
+    # 查看逻辑CPU的个数
+    ~#:cat /proc/cpuinfo| grep "processor"| wc -l

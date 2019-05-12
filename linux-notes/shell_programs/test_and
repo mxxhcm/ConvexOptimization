@@ -1,0 +1,8 @@
+#! /bin/bash
+
+if [ -f $@ -a -x /usr/bin/vi ]
+then 
+	cp $@ $@.bak
+	vi $@
+fi
+

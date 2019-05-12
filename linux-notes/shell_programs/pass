@@ -1,0 +1,18 @@
+#! /bin/bash
+
+echo "Please enter the password:"
+read password
+
+if [ $password = "mxx" ]
+then 
+	echo "Welcome mxx!"
+elif [ $password = "Mike" ]
+then
+	echo "Hi,Mike!"
+elif [ $password = "mahui" ]
+then 
+	echo "Mahui,I love you"
+else 
+	echo "Go away!!"
+fi
+

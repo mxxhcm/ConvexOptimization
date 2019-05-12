@@ -1,0 +1,15 @@
+#! /bin/bash
+
+if [ "AAA" = "aaa" ]
+then 
+	echo "AAA = aaa"
+else 
+	echo "AAA != aaa"
+fi
+
+if [ "AAA" = "AAA" ]
+then 
+	echo "AAA = AAA"
+else 
+	echo "AAA != AAA"
+fi

@@ -1,0 +1,14 @@
+#! /bin/bash
+
+sum=0
+number=1
+
+read n
+
+while test $number -le $n
+do
+	let sum=$sum+$number
+	number=$[ $number + 1 ]
+done 
+
+echo "The the sum of 1+2+...+$n is $sum"

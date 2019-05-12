@@ -1,0 +1,12 @@
+#! /bin/bash
+
+read password
+
+if [ ! -z "$password" -o -f ~/.public_key ]
+then
+	echo "Welcome!!"
+else
+	echo "Please enter the password!!"
+	read password
+	echo "Thanks"
+fi

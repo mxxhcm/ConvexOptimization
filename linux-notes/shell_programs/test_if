@@ -1,0 +1,17 @@
+#! /bin/bash
+
+if ./testscript -1
+then 
+	echo "testscrpt -1"
+
+fi
+
+if ./testscript 0
+then 
+	echo "testscript 0"
+fi
+
+if ./testscript 1
+then 
+	echo "testscript 1"
+fi

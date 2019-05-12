@@ -1,0 +1,117 @@
+1.
+	date=$(date --date='2 days ago' +%Y-%m-%d)
+
+2.
+	变量赋值时等号两边不能为空格
+3.
+
+	test 
+	file 文件类型
+	type　命令类型
+	grep　选取
+	ulimit　查看主机配置
+	tee　
+	
+	sort 默认以文字顺序排序,即从a开始
+	uniq 必须排序后才能输出
+	
+netstat
+
+
+
+配置文件
+	/var/log/syslog	查看系统登陆信息
+	/etc/shells 有多少可用的shell
+	/etc/issue
+	/etc/login.defs UID/GID以及密码参数设置
+	/etc/defaults/useradd  useradd -D 查看useradd默认设置
+	/etc/sudoers 有谁可以执行suders
+	/etc/security/limits.conf	ulimit的设置，文件系统以及程序的限制关系
+	/etc/warnquota.conf设置超过quota限制时发送的邮件内容
+	/etc/mtab
+	/etc/mdadm/mdadm.conf
+	/etc/fstab
+	/proc/mdstat
+
+	/etc/at.allow
+	/etc/at.deny
+
+	/etc/cron.allow
+	/etc/cron.deny
+	/var/spool/cron/crontabs/mxx,root,mahuihui
+	/var/log/cron.conf
+
+	/etc/crontab
+
+	/etc/anacron
+	/var/spool/anacron
+
+	/proc
+	/etc
+	/etc/services #服务与端口号的对应
+	/var/lib
+
+
+	/etc/logroate.conf
+	/var/run
+	
+	/etc/default
+	
+	sudo apt-get install xinetd
+
+第十一章 认识与学习bash
+	
+	type查看命令的种类
+	echo输出变量的值
+	unset取消变量
+	env环境变量
+	export改变变量的范围
+	locale查看语系	
+	set查看所有变量
+	read给一个变量赋值
+	declare声明一个变量
+	ulimit与文件系统以及程序的限制关系
+	
+	变量的替换以及删除
+	
+	alias变量的别名
+	history历史命令
+	!number执行历史第number条命令
+	!command执行最近出现的以command开头的命令
+	!!执行上一条命令
+	
+	/etc/issue  /etc/issue.net
+	
+	/etc/manpath.config
+	
+	stty终端机的环境设置	
+		-a 
+	set $-
+	/etc/inputrc
+	
+	> >>
+ 	< <<
+	&& || $?
+
+	cut在一行信息中去除某部分我们想要都
+	grep分析一则信息　取出我们需要的
+	
+	sort排序
+	wc计数
+	uniq去重
+	
+	tee双重定向
+	
+	tr文字替换
+	col将tab键换成空格
+	join处理两个文件有相同的数据那一行相加
+	paste直接将两行粘在一起，且以tab键分隔
+	expand将tab键换为空格
+	
+	split切割文件大小或者行数
+	
+	xargs
+	finger
+	-	
+
+	hello world .

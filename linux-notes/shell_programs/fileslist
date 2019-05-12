@@ -1,0 +1,9 @@
+#! /bin/bash
+
+echo "There are $# file(s) to list"
+
+for file in $@
+do
+	ls -l $file
+done
+

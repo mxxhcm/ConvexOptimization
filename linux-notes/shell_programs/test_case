@@ -1,0 +1,21 @@
+#! /bin/bash
+
+
+echo "Please enter a Letter"
+
+read letter
+
+case $letter in
+	A)
+	echo "A"
+	;;
+	B)
+	echo "B"
+	;;
+	C)
+	echo "C"
+	;;
+	*)
+	echo "You are silly"
+	;;
+esac

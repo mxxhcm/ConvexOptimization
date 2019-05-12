@@ -1,0 +1,5 @@
+#! /bin/bash
+
+log=big
+
+echo "The apple is ${log}ger"
