@@ -1,0 +1,37 @@
+1.源码下载地址：http://dev.mysql.com/downloads/mysql/ 
+ 　 在source code中选择Generic Linux (Architecture Independent), Compressed TAR Archive
+　　Includes Boost Headers
+  ~#:wget https://dev.mysql.com/downloads/file/?id=471658
+2.安装依赖软件
+  ~#:apt-get install git gcc g++
+  ~#:apt-get install libncurses5 libncurses5-dev
+3.预编译
+  ~#:cmake . -DCMAKE_INSTALL_PREFIX=/usr/local/mysql -DSYSCONFDIR=/etc 
+    -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci
+    -DMYSQL_DATADIR=/usr/local/mysql/data -DWITH_BOOST=boost
+4.安装
+  ~#:make && make install
+  
+5.初始化
+  ~#:cd /usr/local/mysql
+  ~#:chown -R mysql:mysql .
+  ~#:将配置文件拷贝已经不需要了，在5.7.18中support-files已经被取消了
+  ~#:bin/mysqld --initialize  
+     --user=mysql 
+	 --basedir=/usr/local/mysql 
+	 --datadir=/usr/local/mysql/data/
+	 生成临时密码
+  ~#:bin/mysql -u root -p 
+     输入密码，此时必须修改密码
+     SET PASSWORD = PASSWORD('mxxhcm');
+	 
+6.配置mysql服务开机自动启动
+  ~#:cp /usr/local/mysql/support-files/mysql.server /etc/init.d/mysql.server
+  ~#:service mysql.server start|status|sop
+  ~#:update-rc.d mysql.server defaults
+7.配置PATH
+  ~#:vim /etc/profile
+     添加 
+	 PATH=/usr/local/mysql/bin:/usr/local/mysql/lib:$PATH
+	 export PATH
+  ~#:source /etc/profile

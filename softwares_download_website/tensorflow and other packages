@@ -1,0 +1,12 @@
+1.anaconda
+  https://repo.continuum.io/archive/
+2.tensorflow
+  https://pypi.python.org/pypi/tensorflow
+3.numpy
+  https://pypi.python.org/pypi/numpy
+4.matplotlib
+  https://pypi.python.org/pypi/matplotlib/
+5.scipy
+  https://pypi.python.org/pypi/scipy/
+6.protobuf
+  https://pypi.python.org/pypi/protobuf
